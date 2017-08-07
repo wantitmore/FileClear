@@ -1,0 +1,5 @@
+<resources>
+    <string name="clear_master">一键清理</string>
+    <string name="space_controller">空间管理</string>
+    <string name="app_controller">应用管理</string>
+</resources>
