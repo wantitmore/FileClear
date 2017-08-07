@@ -1,6 +1,8 @@
 package com.konka.fileclear;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.view.Window;
@@ -18,7 +20,7 @@ public class MainActivity extends Activity {
     private RadioGroup mClearGroup;
     private AppControllerFragment mAppControllerFragment;
     private SpaceControllerFragment mSpaceControllerFragment;
-    private ClearMasterFragment mClearMasterFragment;
+    private ClearMasterFragment mOneKeyClearFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,24 +37,36 @@ public class MainActivity extends Activity {
         mClearGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-
+                if (mCurrentId != checkedId) {
+                    Fragment fragment = null;
+                    mCurrentId = checkedId;
+                    switch (checkedId) {
+                        case R.id.rb_one_key_clear :
+                            fragment = mOneKeyClearFragment;
+                            break;
+                        case R.id.rb_space_controller :
+                            fragment = mSpaceControllerFragment;
+                            break;
+                        case R.id.rb_app_controller :
+                            fragment = mAppControllerFragment;
+                            break;
+                    }
+                    switchFragment(fragment);
+                }
             }
         });
         mClearGroup.check(R.id.rb_one_key_clear);
-        mCurrentId = R.id.rb_one_key_clear;
-        switchFragment(mCurrentId);
+//        mCurrentId = R.id.rb_one_key_clear;
+//        switchFragment(mAppControllerFragment);
     }
 
-    private void switchFragment(int mCurrentId) {
-        switch (mCurrentId) {
-            case R.id.rb_one_key_clear :
-
-                break;
-        }
+    private void switchFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.fl_main_content, fragment).show(fragment).commitAllowingStateLoss();
     }
 
     private void initFragment() {
-        mClearMasterFragment = new ClearMasterFragment();
+        mOneKeyClearFragment = new ClearMasterFragment();
         mSpaceControllerFragment = new SpaceControllerFragment();
         mAppControllerFragment = new AppControllerFragment();
     }
