@@ -37,8 +37,6 @@ public class MainActivity extends Activity implements View.OnFocusChangeListener
         initListener();
     }
 
-
-
     private void initListener() {
         mOneKeyClear.setOnFocusChangeListener(this);
         mSpaceController.setOnFocusChangeListener(this);
