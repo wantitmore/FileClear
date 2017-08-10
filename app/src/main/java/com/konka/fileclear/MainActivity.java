@@ -56,8 +56,8 @@ public class MainActivity extends Activity {
             }
         });
         mClearGroup.check(R.id.rb_one_key_clear);
-//        mCurrentId = R.id.rb_one_key_clear;
-//        switchFragment(mAppControllerFragment);
+        mCurrentId = R.id.rb_one_key_clear;
+        switchFragment(mAppControllerFragment);
     }
 
     private void switchFragment(Fragment fragment) {
