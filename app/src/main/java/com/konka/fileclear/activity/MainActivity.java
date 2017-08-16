@@ -1,4 +1,4 @@
-package com.konka.fileclear;
+package com.konka.fileclear.activity;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.konka.fileclear.R;
 import com.konka.fileclear.fragments.AppControllerFragment;
 import com.konka.fileclear.fragments.ClearMasterFragment;
 import com.konka.fileclear.fragments.SpaceControllerFragment;

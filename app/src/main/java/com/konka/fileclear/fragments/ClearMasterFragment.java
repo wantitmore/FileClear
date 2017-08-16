@@ -49,9 +49,9 @@ public class ClearMasterFragment extends Fragment {
 
     private void initView(View view) {
         mOneKeyClear = (Button) view.findViewById(R.id.btn_one_key_clear);
-        mLastClearTime = (TextView) view.findViewById(R.id.tv_last_clear_time);
-        mLastClearSpace = (TextView) view.findViewById(R.id.tv_last_clear_space);
-        mTotalClearSpace = (TextView) view.findViewById(R.id.tv_total_clear_space);
+//        mLastClearTime = (TextView) view.findViewById(R.id.tv_last_clear_time);
+//        mLastClearSpace = (TextView) view.findViewById(R.id.tv_last_clear_space);
+//        mTotalClearSpace = (TextView) view.findViewById(R.id.tv_total_clear_space);
     }
 
     @Override

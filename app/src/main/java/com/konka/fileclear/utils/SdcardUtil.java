@@ -4,8 +4,11 @@ import android.content.Context;
 import android.os.Environment;
 import android.os.StatFs;
 import android.text.format.Formatter;
+import android.util.Log;
 
 import java.io.File;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by user001 on 2017-8-9. SD card utils
@@ -18,6 +21,7 @@ public class SdcardUtil {
         StatFs stat = new StatFs(path.getPath());
         long blockSize = stat.getBlockSize();
         long totalBlocks = stat.getBlockCount();
+        Log.d(TAG, "path is : " + path);
         return Formatter.formatFileSize(context, blockSize * totalBlocks);
     }
 
