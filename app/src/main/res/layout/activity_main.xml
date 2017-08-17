@@ -18,18 +18,33 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/clear_master"
+                style="?android:attr/borderlessButtonStyle"
+                android:button="@null"
+                android:layout_marginStart="56dp"
+                android:textColor="@color/color_8fbeff"
+                android:textSize="18sp"
                 />
             <RadioButton
                 android:id="@+id/rb_space_controller"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/space_controller"
+                style="?android:attr/borderlessButtonStyle"
+                android:button="@null"
+                android:layout_marginStart="56dp"
+                android:textColor="@color/color_8fbeff"
+                android:textSize="18sp"
                 />
             <RadioButton
                 android:id="@+id/rb_app_controller"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/app_controller"
+                style="?android:attr/borderlessButtonStyle"
+                android:button="@null"
+                android:layout_marginStart="56dp"
+                android:textColor="@color/color_8fbeff"
+                android:textSize="18sp"
                 />
     </RadioGroup>
 

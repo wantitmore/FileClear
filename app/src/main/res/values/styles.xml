@@ -8,4 +8,26 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="RadioButtonStyle">
+        <item name="android:button">@null</item>
+        <item name="android:paddingLeft">56dp</item>
+        <item name="android:textColor">@color/color_8fbeff</item>
+    </style>
+
+    <style name="stotage_situation">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">#fff</item>
+    </style>
+    <!--android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cleanup_last_time"
+                android:textColor="#fff"-->
+    <style name="home_right_side_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_marginTop">20sp</item>
+    </style>
+
 </resources>

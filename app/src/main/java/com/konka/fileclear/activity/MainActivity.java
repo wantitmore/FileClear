@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -64,6 +65,14 @@ public class MainActivity extends Activity implements View.OnFocusChangeListener
         mOneKeyClear = (RadioButton) findViewById(R.id.rb_one_key_clear);
         mSpaceController = (RadioButton) findViewById(R.id.rb_space_controller);
         mAppController = (RadioButton) findViewById(R.id.rb_app_controller);
+    }
+
+
+    @Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        int measuredHeight = mClearGroup.getMeasuredHeight();
+        Log.d(TAG, "onAttachedToWindow: " + measuredHeight);
     }
 
     @Override

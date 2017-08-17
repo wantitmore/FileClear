@@ -1,40 +1,166 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="com.konka.fileclear.fragments.ClearMasterFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <!-- storage ball view start -->
+    <com.konka.fileclear.view.CircleLayout
+        android:layout_width="205dp"
+        android:layout_height="205dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="105dp">
 
+        <ImageView
+            android:layout_width="205dp"
+            android:layout_height="205dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/storage_ball" />
 
-       <com.konka.fileclear.view.CircleLayout
-           android:layout_centerInParent="true"
-           android:layout_margin="5dp"
-           android:layout_width="400dp"
-           android:layout_height="400dp">
-           <!--<View-->
-               <!--android:background="@android:color/holo_blue_dark"-->
-               <!--android:layout_width="wrap_content"-->
-               <!--android:layout_height="20dp"/>-->
-            <ImageView
-                android:layout_centerInParent="true"
-                android:src="@drawable/storage_ball"
-                android:layout_width="300dp"
-                android:layout_height="200dp" />
-           <View
-               android:layout_width="match_parent"
-               android:layout_height="40dp"
-               android:background="@android:color/holo_blue_dark"/>
+        <View
+            android:id="@+id/storage_remain"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/color_8fbeff"
+            android:padding="3dp" />
 
-       </com.konka.fileclear.view.CircleLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
 
-    <Button
-        android:visibility="gone"
-        android:id="@+id/btn_one_key_clear"
+            <TextView
+                android:id="@+id/tv_storage_available"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/storage_available" />
+
+            <TextView
+                android:id="@+id/tv_storage_available_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/tv_storage_available"
+                android:text="@string/storage_available_size" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_storage_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/storage_total" />
+
+            <TextView
+                android:id="@+id/tv_storage_total_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/storage_available_size" />
+        </LinearLayout>
+    </com.konka.fileclear.view.CircleLayout>
+    <!-- storage ball view end -->
+
+    <!-- right part view start -->
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/one_key_clear" />
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="377dp"
+        android:layout_marginTop="81dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_storage_enough"
+            style="@style/stotage_situation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/storage_enough_text" />
+
+        <TextView
+            android:id="@+id/tv_storage_insufficient"
+            style="@style/stotage_situation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/storage_insufficient_text"
+            android:visibility="gone" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/color_8fbeff" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/home_right_side_text"
+                android:text="@string/cleanup_last_time" />
+
+            <TextView
+                android:id="@+id/tv_clean_last_time"
+                style="@style/home_right_side_text"
+                android:text="@string/cleanup_last_time_value" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/home_right_side_text"
+                android:text="@string/cleanup_last_size" />
+
+            <TextView
+                android:id="@+id/tv_clean_last_size"
+                style="@style/home_right_side_text"
+                android:text="@string/cleanup_last_size_value" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/home_right_side_text"
+                android:text="@string/cleanup_last_size" />
+
+            <TextView
+                android:id="@+id/tv_clean_total_size"
+                style="@style/home_right_side_text"
+                android:text="@string/cleanup_total_size_value" />
+        </LinearLayout>
+        <Button
+            android:id="@+id/btn_optimizi"
+            android:layout_width="160dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/one_key_clean_sel"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:textSize="18sp"
+            android:textColor="#fff"
+            android:text="@string/one_key_cleanup" />
+    </LinearLayout>
+    <!-- storage ball view end -->
+
 
 </RelativeLayout>

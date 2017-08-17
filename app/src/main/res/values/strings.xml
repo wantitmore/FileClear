@@ -3,4 +3,16 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="storage_available">Available:</string>
+    <string name="storage_total">Total:</string>
+    <string name="storage_available_size">2G</string>
+    <string name="storage_enough_text">Storage space is enough,please keep it up!</string>
+    <string name="storage_insufficient_text">Storage space is insufficient,please clean up!</string>
+    <string name="cleanup_last_size">The total amount of the last cleanup:</string>
+    <string name="cleanup_total_size">The total amount of cleanup:</string>
+    <string name="cleanup_last_time">The last cleanup:</string>
+    <string name="cleanup_last_time_value">Yesterday</string>
+    <string name="cleanup_last_size_value">50M</string>
+    <string name="cleanup_total_size_value">600M</string>
+    <string name="one_key_cleanup">optimize</string>
 </resources>
