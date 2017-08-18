@@ -26,12 +26,25 @@ public class SdcardUtil {
     }
 
     public static String getSDAvailableSize(Context context) {
-       /* File path = Environment.getExternalStorageDirectory();
-        StatFs stat = new StatFs(path.getPath());
-        long blockSize = stat.getBlockSizeLong();
-        long availableBlocks = stat.getBlockSizeLong();
-        return Formatter.formatFileSize(context, blockSize * availableBlocks);*/
         StatFs fs = new StatFs(Environment.getDataDirectory().getPath());
         return Formatter.formatFileSize(context, (fs.getAvailableBytes()));
+    }
+
+    private static long getByteTotal(Context context) {
+        File path = Environment.getExternalStorageDirectory();
+        StatFs stat = new StatFs(path.getPath());
+        long blockSize = stat.getBlockSize();
+        long totalBlocks = stat.getBlockCount();
+        return blockSize * totalBlocks;
+    }
+
+    private static long getByteAvailable(Context context) {
+        return new StatFs(Environment.getDataDirectory().getPath()).getAvailableBytes();
+    }
+
+    public static double getAvailRatio(Context context) {
+        double num = 1- (double) getByteAvailable(context) / (double) getByteTotal(context);
+        Log.d(TAG, "getAvailRatio: num is " + num);
+        return num;
     }
 }

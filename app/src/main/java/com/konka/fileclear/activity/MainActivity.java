@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -16,9 +17,9 @@ import com.konka.fileclear.fragments.AppControllerFragment;
 import com.konka.fileclear.fragments.ClearMasterFragment;
 import com.konka.fileclear.fragments.SpaceControllerFragment;
 
-public class MainActivity extends Activity implements View.OnFocusChangeListener{
+import static com.konka.fileclear.R.id.rb_one_key_clear;
 
-    private int mCurrentId;
+public class MainActivity extends Activity implements View.OnFocusChangeListener{
 
     private RadioGroup mClearGroup;
     private AppControllerFragment mAppControllerFragment;
@@ -46,8 +47,12 @@ public class MainActivity extends Activity implements View.OnFocusChangeListener
     }
 
     private void switchFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.fl_main_content, fragment).show(fragment).commitAllowingStateLoss();
+        try {
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.fl_main_content, fragment).show(fragment).commitAllowingStateLoss();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void initFragment() {
@@ -62,7 +67,7 @@ public class MainActivity extends Activity implements View.OnFocusChangeListener
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
         mClearGroup = (RadioGroup) findViewById(R.id.rg_main);
-        mOneKeyClear = (RadioButton) findViewById(R.id.rb_one_key_clear);
+        mOneKeyClear = (RadioButton) findViewById(rb_one_key_clear);
         mSpaceController = (RadioButton) findViewById(R.id.rb_space_controller);
         mAppController = (RadioButton) findViewById(R.id.rb_app_controller);
     }
@@ -76,10 +81,26 @@ public class MainActivity extends Activity implements View.OnFocusChangeListener
     }
 
     @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (mOneKeyClearFragment.isVisible() && keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+            mClearGroup.check(R.id.rb_one_key_clear);
+            mOneKeyClear.setNextFocusDownId(R.id.rg_main);
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.d(TAG, "onDestroy: onFocusChange:4");
+        super.onDestroy();
+    }
+
+    @Override
     public void onFocusChange(View v, boolean hasFocus) {
         if (hasFocus) {
             switch (v.getId()) {
-                case R.id.rb_one_key_clear :
+                case rb_one_key_clear :
                     switchFragment(mOneKeyClearFragment);
                     break;
                 case R.id.rb_space_controller :

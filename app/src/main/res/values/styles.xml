@@ -16,12 +16,10 @@
 
     <style name="stotage_situation">
         <item name="android:textSize">24sp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">#fff</item>
     </style>
-    <!--android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/cleanup_last_time"
-                android:textColor="#fff"-->
     <style name="home_right_side_text">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

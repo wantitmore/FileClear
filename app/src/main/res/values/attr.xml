@@ -5,9 +5,5 @@
         <attr name="crl_rippleBgColor" format="color" />
         <attr name="crl_padding" format="dimension" />
     </declare-styleable>
-    <declare-styleable name="test">
-        <attr name="text" format="string" />
-        <attr name="testAttr" format="integer" />
-    </declare-styleable>
 
 </resources>

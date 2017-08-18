@@ -15,4 +15,12 @@
     <string name="cleanup_last_size_value">50M</string>
     <string name="cleanup_total_size_value">600M</string>
     <string name="one_key_cleanup">optimize</string>
+    <string name="scanning">Scanning:</string>
+    <string name="scan_path">scan path</string>
+    <string name="clean_size">It\'s freeing up %1$s space.</string>
+    <string name="running_apps">Running Apps: %1$d</string>
+    <string name="cache_trash">Cache trash: %1$s</string>
+    <string name="app_cache">App cache: %1$s</string>
+    <string name="done">done</string>
+    <string name="depth_clean">depth clean</string>
 </resources>
