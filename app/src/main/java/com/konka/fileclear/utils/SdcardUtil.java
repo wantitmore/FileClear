@@ -16,7 +16,7 @@ import static android.content.ContentValues.TAG;
 
 public class SdcardUtil {
 
-    public static String getSDTotalSize(Context context) {
+    public static String getSDTotalSize(final Context context) {
         File path = Environment.getExternalStorageDirectory();
         StatFs stat = new StatFs(path.getPath());
         long blockSize = stat.getBlockSize();

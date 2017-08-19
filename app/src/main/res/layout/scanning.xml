@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rl_scanning"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_centerInParent="true"
+    android:layout_marginTop="131dp"
     >
 
     <ImageView
@@ -14,11 +15,13 @@
         android:src="@drawable/fan" />
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/iv_fan"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp">
+        android:layout_alignParentBottom="true"
+        android:gravity="bottom"
+        android:layout_marginBottom="124dp"
+        >
 
         <TextView
             android:id="@+id/tv_scanning"
@@ -26,14 +29,17 @@
             android:layout_height="wrap_content"
             android:textColor="@color/color_white"
             android:textSize="24sp"
-            android:text="@string/scanning" />
+            android:text="@string/scanning"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="380dp" />
 
         <TextView
             android:id="@+id/tv_scan_path"
+            android:layout_toRightOf="@+id/tv_scanning"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/tv_scanning"
-            android:layout_toRightOf="@+id/tv_scanning"
             android:textColor="@color/color_white"
             android:ellipsize="end"
             android:textSize="24sp"

@@ -17,7 +17,7 @@ import com.konka.fileclear.R;
 import com.konka.fileclear.activity.ClearMasterResultActivity;
 import com.konka.fileclear.utils.SdcardUtil;
 
-import java.lang.reflect.Field;
+import org.litepal.tablemanager.Connector;
 
 import static android.content.ContentValues.TAG;
 
@@ -52,7 +52,6 @@ public class ClearMasterFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // one key clear
-                Log.d(TAG, "onClick: ------------------99");
                 startActivity(new Intent(getActivity(), ClearMasterResultActivity.class));
             }
         });
@@ -76,22 +75,6 @@ public class ClearMasterFragment extends Fragment {
         setStorageSituation();
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-
-        try {
-            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
-            childFragmentManager.setAccessible(true);
-            childFragmentManager.set(this, null);
-
-        } catch (NoSuchFieldException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     private void setStorageSituation() {
         String sdTotalSize = SdcardUtil.getSDTotalSize(getActivity());
         String sdAvailableSize = SdcardUtil.getSDAvailableSize(getActivity());
@@ -102,6 +85,7 @@ public class ClearMasterFragment extends Fragment {
         double remainRatio = SdcardUtil.getAvailRatio(getActivity());
         remainLayoutParams.height = (int) (ballLayoutParams.height * remainRatio);
         mStorageRemain.setLayoutParams(remainLayoutParams);
+        Connector.getDatabase();
         Log.d(TAG, "setStorageSituation: remainRatio is " + remainRatio + ", remain height is " + remainLayoutParams.height);
     }
 

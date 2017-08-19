@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_clear_result"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="138dp"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:visibility="visible">
+
+    <TextView
+        android:id="@+id/tv_clean_size"
+        style="@style/stotage_situation"
+        android:text="@string/clean_size" />
+
+    <TextView
+        android:id="@+id/tv_running_apps"
+        style="@style/home_right_side_text"
+        android:text="@string/running_apps"
+
+        />
+
+    <TextView
+        android:id="@+id/tv_cache_trash"
+        style="@style/home_right_side_text"
+        android:text="@string/cache_trash" />
+
+    <TextView
+        android:id="@+id/tv_app_cache"
+        style="@style/home_right_side_text"
+        android:text="@string/app_cache" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom|center_horizontal"
+        android:gravity="bottom"
+        android:paddingBottom="99dp">
+
+        <Button
+            android:id="@+id/btn_done"
+            android:layout_width="160dp"
+            android:layout_height="60dp"
+            android:background="@drawable/one_key_clean_sel"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="@string/done" />
+
+        <Button
+            android:id="@+id/btn_depth_clean"
+            android:layout_width="160dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="80dp"
+            android:layout_toRightOf="@+id/btn_done"
+            android:background="@drawable/one_key_clean_sel"
+            android:text="@string/depth_clean" />
+    </RelativeLayout>
+</LinearLayout>
