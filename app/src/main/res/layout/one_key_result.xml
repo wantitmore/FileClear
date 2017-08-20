@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/rl_clear_result"
+    android:id="@+id/ll_clear_result"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:layout_centerHorizontal="true"
@@ -29,7 +29,7 @@
     <TextView
         android:id="@+id/tv_app_cache"
         style="@style/home_right_side_text"
-        android:text="@string/app_cache" />
+        android:text="@string/useless_file" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -40,20 +40,16 @@
 
         <Button
             android:id="@+id/btn_done"
-            android:layout_width="160dp"
-            android:layout_height="60dp"
-            android:background="@drawable/one_key_clean_sel"
+            style="@style/btnStyle"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:text="@string/done" />
 
         <Button
             android:id="@+id/btn_depth_clean"
-            android:layout_width="160dp"
-            android:layout_height="60dp"
+            style="@style/btnStyle"
             android:layout_marginLeft="80dp"
             android:layout_toRightOf="@+id/btn_done"
-            android:background="@drawable/one_key_clean_sel"
             android:text="@string/depth_clean" />
     </RelativeLayout>
 </LinearLayout>

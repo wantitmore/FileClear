@@ -1,6 +1,7 @@
 package com.konka.fileclear.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.IPackageDataObserver;
@@ -10,15 +11,18 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageStats;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.RemoteException;
 import android.os.StatFs;
 import android.text.format.Formatter;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.konka.fileclear.R;
 import com.konka.fileclear.utils.FileUtils;
@@ -29,14 +33,19 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
+import static android.view.View.GONE;
 
 public class ClearMasterResultActivity extends Activity {
 
     private ImageView mFan;
-    private TextView mScanPath;
+    private TextView mScanPath, mClearing;
     private PackageManager pm;   //包管理
     long totalCache;
     private boolean isFirstClear = true;
+    private RelativeLayout mScanningApp, mScanningLayout;
+    private LinearLayout mClearResult;
+    private TextView mCleanSize, mKillAppNum, mCacheTrash, mDeleteFile;;
+    private String mUselessFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +59,7 @@ public class ClearMasterResultActivity extends Activity {
     }
 
     private void startScanning() {
+        mUselessFile = FileUtils.deleteUselessFile();
         scanCaches();
     }
 
@@ -74,16 +84,49 @@ public class ClearMasterResultActivity extends Activity {
                         getPackageSizeInfoMethod.invoke(pm, info.packageName,
                                 new MyDataObserver());
                     } catch (Exception e) {
+                        Log.d(TAG, "run: error " + e.getCause().getMessage());
                         e.printStackTrace();
                     }
                 }
-                String s = Formatter.formatFileSize(ClearMasterResultActivity.this, totalCache);
-                Log.d(TAG, "run: total cache is " + s);
-//                CleanAllCache();
-                FileUtils.deleteUselessFile();
-                killProcess();
+                clearData();
+                final String cache = Formatter.formatFileSize(ClearMasterResultActivity.this, totalCache);
+                Log.d(TAG, "run: total cache is " + cache);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mScanningApp.setVisibility(GONE);
+                        mClearing.setVisibility(View.VISIBLE);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                mClearing.setText(getResources().getText(R.string.clear_cache_useless_files));
+                                mScanningLayout.setVisibility(GONE);
+                                mClearResult.setVisibility(View.VISIBLE);
+                                showCleanData(cache);
+                            }
+                        }, 1000);
+                    }
+                });
             };
         }.start();
+    }
+
+    private void showCleanData(String cache) {
+        Context otherAppContext;
+        try {
+            otherAppContext = createPackageContext("com.android.systemui", Context.CONTEXT_IGNORE_SECURITY);
+            int killedNum = otherAppContext.getSharedPreferences("kill_process", MODE_MULTI_PROCESS).getInt("kill_process_num", 0);
+            mKillAppNum.setText(String.format(getResources().getString(R.string.running_apps), killedNum));
+            mCacheTrash.setText(String.format(getResources().getString(R.string.cache_trash), cache));
+            mDeleteFile.setText(String.format(getResources().getString(R.string.useless_file), mUselessFile));
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void clearData() {
+        CleanAllCache();
+        killProcess();
     }
 
     private void killProcess() {
@@ -112,8 +155,10 @@ public class ClearMasterResultActivity extends Activity {
                         if (isFirstClear) {
                             totalCache += cache;
                             isFirstClear = false;
+                            Log.d(TAG, "run: first clear--");
                         } else if (cache > 12288) {
                             totalCache += cache;
+                            Log.d(TAG, "run: numermous clear--");
                         }
                     }
                 });
@@ -154,15 +199,7 @@ public class ClearMasterResultActivity extends Activity {
         @Override
         public void onRemoveCompleted(String packageName, boolean succeeded)
                 throws RemoteException {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(getApplicationContext(), "缓存删除成功", Toast.LENGTH_SHORT).show();
-//                    ll_container.removeAllViews();
-//                    scan_state.setText("缓存清理成功");
-                    Toast.makeText(ClearMasterResultActivity.this, "total is " + Formatter.formatFileSize(ClearMasterResultActivity.this, totalCache), Toast.LENGTH_SHORT).show();
-                }
-            });
+            // save database
         }
     }
 
@@ -189,5 +226,13 @@ public class ClearMasterResultActivity extends Activity {
     private void initView() {
         mFan = (ImageView) findViewById(R.id.iv_fan);
         mScanPath = (TextView) findViewById(R.id.tv_scan_path);
+        mScanningApp = (RelativeLayout) findViewById(R.id.rl_scanning_app);
+        mScanningLayout = (RelativeLayout) findViewById(R.id.rl_scanning);
+        mClearResult = (LinearLayout) findViewById(R.id.ll_clear_result);
+        mClearing = (TextView) findViewById(R.id.tv_clearing);
+        mCleanSize = (TextView) findViewById(R.id.tv_clean_size);
+        mKillAppNum = (TextView) findViewById(R.id.tv_running_apps);
+        mCacheTrash = (TextView) findViewById(R.id.tv_cache_trash);
+        mDeleteFile = (TextView) findViewById(R.id.tv_app_cache);
     }
 }

@@ -18,9 +18,9 @@ public class FileUtils {
 
     private static String[] clearType = { ".apk", ".log", ".tmp", ".temp", ".bak" };
     private static String SDCARD_ROOT = "/data/data";
-    public static void deleteUselessFile() {
+    public static String deleteUselessFile() {
         Log.d(TAG, "deleteUselessFile: begin to delete.");
-        deleteFile(getallFiles(SDCARD_ROOT, clearType));
+        return deleteFile(getallFiles(SDCARD_ROOT, clearType));
     }
 
     private static String deleteFile(List<File> files) {

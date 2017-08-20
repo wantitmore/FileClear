@@ -11,10 +11,12 @@
         android:id="@+id/iv_fan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/fan" />
+        android:src="@drawable/fan"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
     <RelativeLayout
+        android:id="@+id/rl_scanning_app"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/iv_fan"
@@ -45,4 +47,17 @@
             android:textSize="24sp"
             android:text="@string/scan_path" />
     </RelativeLayout>
+    <TextView
+        android:id="@+id/tv_clearing"
+        android:visibility="gone"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/color_white"
+        android:text="@string/kill_process"
+        android:layout_below="@+id/iv_fan"
+        android:layout_alignParentBottom="true"
+        android:gravity="bottom"
+        android:textSize="24sp"
+        android:layout_marginBottom="124dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </RelativeLayout>

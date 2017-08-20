@@ -27,5 +27,11 @@
         <item name="android:textSize">18sp</item>
         <item name="android:layout_marginTop">20sp</item>
     </style>
+    <style name="btnStyle">
+        <item name="android:layout_width">160dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:background">@drawable/one_key_clean_sel</item>
+        <item name="android:textColor">@color/color_white</item>
+    </style>
 
 </resources>

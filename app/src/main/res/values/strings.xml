@@ -20,7 +20,9 @@
     <string name="clean_size">It\'s freeing up %1$s space.</string>
     <string name="running_apps">Running Apps: %1$d</string>
     <string name="cache_trash">Cache trash: %1$s</string>
-    <string name="app_cache">App cache: %1$s</string>
+    <string name="useless_file">Useless file: %1$s</string>
     <string name="done">done</string>
     <string name="depth_clean">depth clean</string>
+    <string name="kill_process">Closing the running apps in progress&#8230;</string>
+    <string name="clear_cache_useless_files">Clearing cache and useless files&#8230;</string>
 </resources>

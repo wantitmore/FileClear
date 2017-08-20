@@ -53,6 +53,8 @@ public class ClearMasterFragment extends Fragment {
             public void onClick(View v) {
                 // one key clear
                 startActivity(new Intent(getActivity(), ClearMasterResultActivity.class));
+//                StorageClear storageClear = new StorageClear();
+//                storageClear.setLastClearTime();
             }
         });
     }
