@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -40,8 +41,9 @@ import java.util.List;
 
 import static android.content.ContentValues.TAG;
 import static android.view.View.GONE;
+import static com.konka.fileclear.R.id.btn_done;
 
-public class ClearMasterResultActivity extends Activity {
+public class ClearMasterResultActivity extends Activity implements View.OnClickListener{
 
     private ImageView mFan;
     private TextView mScanPath, mClearing;
@@ -61,6 +63,7 @@ public class ClearMasterResultActivity extends Activity {
     private String retStrFormatNowDate;
     private long cleanSize;
     private long totalCleanSize;
+    private Button mDone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +73,13 @@ public class ClearMasterResultActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clear_master_result);
         initView();
+        initListener();
         verifyStoragePermissions(this);
         startScanning();
+    }
+
+    private void initListener() {
+        mDone.setOnClickListener(this);
     }
 
     public static void verifyStoragePermissions(Activity activity) {
@@ -89,7 +97,7 @@ public class ClearMasterResultActivity extends Activity {
     }
 
     private void startScanning() {
-        getTotalCleanSize();
+//        getTotalCleanSize();
         mUselessFile = FileUtils.deleteUselessFile();
         mFileSize = Formatter.formatFileSize(ClearMasterResultActivity.this, mUselessFile);
         scanCaches();
@@ -166,9 +174,7 @@ public class ClearMasterResultActivity extends Activity {
         StorageClear storageClear = new StorageClear();
         storageClear.setLastClearTime(System.currentTimeMillis());
         storageClear.setLastClearSize(cleanSize);
-        long totalClearSize = storageClear.getTotalClearSize();
-        Log.d(TAG, "saveData: total is " + totalClearSize);
-        storageClear.setTotalClearSize(totalCleanSize + cleanSize);
+//        storageClear.setTotalClearSize(totalCleanSize + cleanSize);
         storageClear.save();
     }
 
@@ -188,10 +194,21 @@ public class ClearMasterResultActivity extends Activity {
         Connector.getDatabase();
         List<StorageClear> storageClears = DataSupport.findAll(StorageClear.class);
         for (StorageClear storageClear : storageClears) {
-            long totalClearSize = storageClear.getTotalClearSize();
-            totalCleanSize += totalClearSize;
+            Log.d(TAG, "getTotalCleanSize: 111>" + storageClear.getLastClearSize());
+            return totalCleanSize += storageClear.getLastClearSize();
         }
+        Log.d(TAG, "getTotalCleanSize: 222___>");
         return totalCleanSize;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case btn_done :
+                startActivity(new Intent(ClearMasterResultActivity.this, MainActivity.class));
+                finish();
+                break;
+        }
     }
 
     private class MyDataObserver extends IPackageStatsObserver.Stub {
@@ -281,16 +298,17 @@ public class ClearMasterResultActivity extends Activity {
         }
     }
 
-    private void initView() {
-        mFan = (ImageView) findViewById(R.id.iv_fan);
-        mScanPath = (TextView) findViewById(R.id.tv_scan_path);
-        mScanningApp = (RelativeLayout) findViewById(R.id.rl_scanning_app);
-        mScanningLayout = (RelativeLayout) findViewById(R.id.rl_scanning);
-        mClearResult = (LinearLayout) findViewById(R.id.ll_clear_result);
-        mClearing = (TextView) findViewById(R.id.tv_clearing);
-        mCleanSize = (TextView) findViewById(R.id.tv_clean_size);
-        mKillAppNum = (TextView) findViewById(R.id.tv_running_apps);
-        mCacheTrash = (TextView) findViewById(R.id.tv_cache_trash);
-        mDeleteFile = (TextView) findViewById(R.id.tv_app_cache);
+        private void initView() {
+            mDone = (Button) findViewById(btn_done);
+            mFan = (ImageView) findViewById(R.id.iv_fan);
+            mScanPath = (TextView) findViewById(R.id.tv_scan_path);
+            mScanningApp = (RelativeLayout) findViewById(R.id.rl_scanning_app);
+            mScanningLayout = (RelativeLayout) findViewById(R.id.rl_scanning);
+            mClearResult = (LinearLayout) findViewById(R.id.ll_clear_result);
+            mClearing = (TextView) findViewById(R.id.tv_clearing);
+            mCleanSize = (TextView) findViewById(R.id.tv_clean_size);
+            mKillAppNum = (TextView) findViewById(R.id.tv_running_apps);
+            mCacheTrash = (TextView) findViewById(R.id.tv_cache_trash);
+            mDeleteFile = (TextView) findViewById(R.id.tv_app_cache);
     }
 }

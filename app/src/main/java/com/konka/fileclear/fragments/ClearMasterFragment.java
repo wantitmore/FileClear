@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.format.Formatter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,6 @@ import org.litepal.tablemanager.Connector;
 
 import java.util.List;
 
-import static android.content.ContentValues.TAG;
 import static com.konka.fileclear.R.id.tv_clean_last_time;
 
 /**
@@ -39,6 +37,7 @@ public class ClearMasterFragment extends Fragment {
     private TextView mStorageAvailable, mStorageTotal;
     private View mStorageRemain;
     private ImageView mStorageBall;
+    private long mTotalClearSize;
 
     public ClearMasterFragment() {
         // Required empty public constructor
@@ -60,8 +59,6 @@ public class ClearMasterFragment extends Fragment {
             public void onClick(View v) {
                 // one key clear
                 startActivity(new Intent(getActivity(), ClearMasterResultActivity.class));
-//                StorageClear storageClear = new StorageClear();
-//                storageClear.setLastClearTime();
             }
         });
     }
@@ -97,15 +94,15 @@ public class ClearMasterFragment extends Fragment {
         Connector.getDatabase();
         List<StorageClear> storageClears = DataSupport.findAll(StorageClear.class);
         for (StorageClear storageClear : storageClears) {
-            long lastClearTime = storageClear.getLastClearTime();
-            Log.d(TAG, "setStorageSituation: " + lastClearTime);
             long lastClearSize = storageClear.getLastClearSize();
-            long totalClearSize = storageClear.getTotalClearSize();
-            mLastClearTime.setText(TimeUtil.convertTimeToFormat(getActivity(), lastClearTime));
+            mTotalClearSize += lastClearSize;
+
             mLastClearSpace.setText(Formatter.formatFileSize(getActivity(), lastClearSize));
-            mTotalClearSpace.setText(Formatter.formatFileSize(getActivity(), totalClearSize));
         }
-//        Log.d(TAG, "setStorageSituation: remainRatio is " + remainRatio + ", remain height is " + remainLayoutParams.height);
+        StorageClear lastClear = DataSupport.findLast(StorageClear.class);
+        long lastClearTime = lastClear.getLastClearTime();
+        mLastClearTime.setText(TimeUtil.convertTimeToFormat(getActivity(), lastClearTime));
+        mTotalClearSpace.setText(Formatter.formatFileSize(getActivity(), mTotalClearSize));
     }
 
 }
