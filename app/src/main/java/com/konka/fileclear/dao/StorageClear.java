@@ -6,7 +6,7 @@ package com.konka.fileclear.dao;
 
 public class StorageClear extends org.litepal.crud.DataSupport {
     private int id;
-    private String lastClearTime;
+    private long lastClearTime;
     private long lastClearSize;
     private long totalClearSize;
 
@@ -18,11 +18,11 @@ public class StorageClear extends org.litepal.crud.DataSupport {
         this.id = id;
     }
 
-    public String getLastClearTime() {
+    public long getLastClearTime() {
         return lastClearTime;
     }
 
-    public void setLastClearTime(String lastClearTime) {
+    public void setLastClearTime(long lastClearTime) {
         this.lastClearTime = lastClearTime;
     }
 

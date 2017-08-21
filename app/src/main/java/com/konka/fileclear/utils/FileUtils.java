@@ -18,25 +18,24 @@ public class FileUtils {
 
     private static String[] clearType = { ".apk", ".log", ".tmp", ".temp", ".bak" };
     private static String SDCARD_ROOT = "/data/data";
-    public static String deleteUselessFile() {
+    public static long deleteUselessFile() {
         Log.d(TAG, "deleteUselessFile: begin to delete.");
         return deleteFile(getallFiles(SDCARD_ROOT, clearType));
     }
 
-    private static String deleteFile(List<File> files) {
-        float allFileSize = 0;
+    private static long deleteFile(List<File> files) {
+        long allFileSize = 0;
         float size;
         for (File file : files) {
             size = getFileSize(file);
             Log.d(TAG, "deleteFile-->>  filePath:" + file.getPath()+ " | size:" + size);
-            /*if(file.delete()){
-                allFileSize = allFileSize + getFileSize(file);
+            if(file.delete()){
+                allFileSize = (long) (allFileSize + getFileSize(file));
                 Log.e(TAG, "deleteFile: success, " + allFileSize);
-            }*/
+            }
         }
-        // list.clear();
         Log.d(TAG, "deleteFile: " + allFileSize);
-        return numToString(allFileSize / 1024);
+        return allFileSize;
     }
 
     private static String numToString(float f) {
@@ -76,9 +75,6 @@ public class FileUtils {
             Log.d(TAG, "getallFiles: file is " + file + ", " + file.exists());
             if (file.exists()) {
                 File[] files = file.listFiles();
-                if (file.getAbsolutePath().equals("/data/data/com.android.webview")) {
-                    Log.d(TAG, "getallFiles: files is " + files.toString());
-                }
                 if (files.length > 0) {
                     for (File file2 : files) {
                         if (file2.isDirectory()) {

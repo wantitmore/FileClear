@@ -1,5 +1,6 @@
 package com.konka.fileclear.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.RemoteException;
 import android.os.StatFs;
+import android.support.v4.app.ActivityCompat;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.view.View;
@@ -25,7 +27,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.konka.fileclear.R;
+import com.konka.fileclear.dao.StorageClear;
 import com.konka.fileclear.utils.FileUtils;
+
+import org.litepal.crud.DataSupport;
+import org.litepal.tablemanager.Connector;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -45,7 +51,16 @@ public class ClearMasterResultActivity extends Activity {
     private RelativeLayout mScanningApp, mScanningLayout;
     private LinearLayout mClearResult;
     private TextView mCleanSize, mKillAppNum, mCacheTrash, mDeleteFile;;
-    private String mUselessFile;
+    private long mUselessFile;
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+    private String mFileSize;
+    private String retStrFormatNowDate;
+    private long cleanSize;
+    private long totalCleanSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,11 +70,28 @@ public class ClearMasterResultActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clear_master_result);
         initView();
+        verifyStoragePermissions(this);
         startScanning();
     }
 
+    public static void verifyStoragePermissions(Activity activity) {
+        // Check if we have write permission
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
+    }
+
     private void startScanning() {
+        getTotalCleanSize();
         mUselessFile = FileUtils.deleteUselessFile();
+        mFileSize = Formatter.formatFileSize(ClearMasterResultActivity.this, mUselessFile);
         scanCaches();
     }
 
@@ -114,14 +146,30 @@ public class ClearMasterResultActivity extends Activity {
     private void showCleanData(String cache) {
         Context otherAppContext;
         try {
+            cleanSize = mUselessFile + totalCache;
             otherAppContext = createPackageContext("com.android.systemui", Context.CONTEXT_IGNORE_SECURITY);
             int killedNum = otherAppContext.getSharedPreferences("kill_process", MODE_MULTI_PROCESS).getInt("kill_process_num", 0);
             mKillAppNum.setText(String.format(getResources().getString(R.string.running_apps), killedNum));
             mCacheTrash.setText(String.format(getResources().getString(R.string.cache_trash), cache));
-            mDeleteFile.setText(String.format(getResources().getString(R.string.useless_file), mUselessFile));
+            mDeleteFile.setText(String.format(getResources().getString(R.string.useless_file), mFileSize));
+            mCleanSize.setText(String.format(getResources().getString(R.string.clean_size),
+
+                    Formatter.formatFileSize(ClearMasterResultActivity.this, cleanSize)));
+            saveData();
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private void saveData() {
+
+        StorageClear storageClear = new StorageClear();
+        storageClear.setLastClearTime(System.currentTimeMillis());
+        storageClear.setLastClearSize(cleanSize);
+        long totalClearSize = storageClear.getTotalClearSize();
+        Log.d(TAG, "saveData: total is " + totalClearSize);
+        storageClear.setTotalClearSize(totalCleanSize + cleanSize);
+        storageClear.save();
     }
 
     private void clearData() {
@@ -134,6 +182,16 @@ public class ClearMasterResultActivity extends Activity {
         intent.setAction("com.android.systemui.recents.action.STATIC_CLEAN_RECENTS_APPS");
         intent.putExtra("file_clear", true);
         sendBroadcast(intent);
+    }
+
+    public long getTotalCleanSize() {
+        Connector.getDatabase();
+        List<StorageClear> storageClears = DataSupport.findAll(StorageClear.class);
+        for (StorageClear storageClear : storageClears) {
+            long totalClearSize = storageClear.getTotalClearSize();
+            totalCleanSize += totalClearSize;
+        }
+        return totalCleanSize;
     }
 
     private class MyDataObserver extends IPackageStatsObserver.Stub {
