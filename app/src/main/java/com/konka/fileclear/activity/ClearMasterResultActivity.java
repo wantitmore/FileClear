@@ -21,6 +21,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -76,6 +79,21 @@ public class ClearMasterResultActivity extends Activity implements View.OnClickL
         initListener();
         verifyStoragePermissions(this);
         startScanning();
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startAnim();
+    }
+
+    private void startAnim() {
+        Animation animation = AnimationUtils.loadAnimation(this,
+                R.anim.fan_anim);
+        LinearInterpolator lir = new LinearInterpolator();
+        animation.setInterpolator(lir);
+        mFan.startAnimation(animation);
     }
 
     private void initListener() {
@@ -205,7 +223,7 @@ public class ClearMasterResultActivity extends Activity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case btn_done :
-                startActivity(new Intent(ClearMasterResultActivity.this, MainActivity.class));
+//                startActivity(new Intent(ClearMasterResultActivity.this, MainActivity.class));
                 finish();
                 break;
         }
@@ -298,7 +316,7 @@ public class ClearMasterResultActivity extends Activity implements View.OnClickL
         }
     }
 
-        private void initView() {
+    private void initView() {
             mDone = (Button) findViewById(btn_done);
             mFan = (ImageView) findViewById(R.id.iv_fan);
             mScanPath = (TextView) findViewById(R.id.tv_scan_path);

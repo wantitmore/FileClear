@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.format.Formatter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import org.litepal.tablemanager.Connector;
 
 import java.util.List;
 
+import static android.content.ContentValues.TAG;
 import static com.konka.fileclear.R.id.tv_clean_last_time;
 
 /**
@@ -78,10 +80,41 @@ public class ClearMasterFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // check total space and remain space
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         setStorageSituation();
     }
 
     private void setStorageSituation() {
+        setStorageBall();
+        setClearData();
+    }
+
+    private void setClearData() {
+        Connector.getDatabase();
+        List<StorageClear> storageClears = DataSupport.findAll(StorageClear.class);
+        mTotalClearSize = 0;
+        for (StorageClear storageClear : storageClears) {
+            long lastClearSize = storageClear.getLastClearSize();
+            mTotalClearSize += lastClearSize;
+            Log.d(TAG, "setClearData: " + lastClearSize + ",  " + mTotalClearSize + ",  " + Formatter.formatFileSize(getActivity(), mTotalClearSize));
+        }
+        try {
+            StorageClear lastClear = DataSupport.findLast(StorageClear.class);
+            long lastClearTime = lastClear.getLastClearTime();
+            long lastClearSize = lastClear.getLastClearSize();
+            mLastClearSpace.setText(Formatter.formatFileSize(getActivity(), lastClearSize));
+            mLastClearTime.setText(TimeUtil.convertTimeToFormat(getActivity(), lastClearTime));
+            mTotalClearSpace.setText(Formatter.formatFileSize(getActivity(), mTotalClearSize));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setStorageBall() {
         String sdTotalSize = SdcardUtil.getSDTotalSize(getActivity());
         String sdAvailableSize = SdcardUtil.getSDAvailableSize(getActivity());
         mStorageTotal.setText(sdTotalSize);
@@ -91,18 +124,6 @@ public class ClearMasterFragment extends Fragment {
         double remainRatio = SdcardUtil.getAvailRatio(getActivity());
         remainLayoutParams.height = (int) (ballLayoutParams.height * remainRatio);
         mStorageRemain.setLayoutParams(remainLayoutParams);
-        Connector.getDatabase();
-        List<StorageClear> storageClears = DataSupport.findAll(StorageClear.class);
-        for (StorageClear storageClear : storageClears) {
-            long lastClearSize = storageClear.getLastClearSize();
-            mTotalClearSize += lastClearSize;
-
-            mLastClearSpace.setText(Formatter.formatFileSize(getActivity(), lastClearSize));
-        }
-        StorageClear lastClear = DataSupport.findLast(StorageClear.class);
-        long lastClearTime = lastClear.getLastClearTime();
-        mLastClearTime.setText(TimeUtil.convertTimeToFormat(getActivity(), lastClearTime));
-        mTotalClearSpace.setText(Formatter.formatFileSize(getActivity(), mTotalClearSize));
     }
 
 }

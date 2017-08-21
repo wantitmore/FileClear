@@ -11,9 +11,9 @@
     <string name="cleanup_last_size">The total amount of the last cleanup:</string>
     <string name="cleanup_total_size">The total amount of cleanup:</string>
     <string name="cleanup_last_time">The last cleanup:</string>
-    <string name="cleanup_last_time_value">Yesterday</string>
-    <string name="cleanup_last_size_value">50M</string>
-    <string name="cleanup_total_size_value">600M</string>
+    <string name="cleanup_last_time_value"> </string>
+    <string name="cleanup_last_size_value">0M</string>
+    <string name="cleanup_total_size_value">0M</string>
     <string name="one_key_cleanup">optimize</string>
     <string name="scanning">Scanning:</string>
     <string name="scan_path">scan path</string>
