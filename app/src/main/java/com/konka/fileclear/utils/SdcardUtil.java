@@ -25,9 +25,9 @@ public class SdcardUtil {
         return Formatter.formatFileSize(context, blockSize * totalBlocks);
     }
 
-    public static String getSDAvailableSize(Context context) {
+    public static long getSDAvailableSize(Context context) {
         StatFs fs = new StatFs(Environment.getDataDirectory().getPath());
-        return Formatter.formatFileSize(context, (fs.getAvailableBytes()));
+        return fs.getAvailableBytes();
     }
 
     private static long getByteTotal(Context context) {

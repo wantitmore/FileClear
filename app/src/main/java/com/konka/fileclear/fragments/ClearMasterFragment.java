@@ -3,6 +3,7 @@ package com.konka.fileclear.fragments;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.format.Formatter;
@@ -40,6 +41,7 @@ public class ClearMasterFragment extends Fragment {
     private View mStorageRemain;
     private ImageView mStorageBall;
     private long mTotalClearSize;
+    private TextView mStorageText;
 
     public ClearMasterFragment() {
         // Required empty public constructor
@@ -74,6 +76,7 @@ public class ClearMasterFragment extends Fragment {
         mStorageTotal = (TextView) view.findViewById(R.id.tv_storage_total_size);
         mStorageRemain = view.findViewById(R.id.storage_remain);
         mStorageBall = (ImageView)view.findViewById(R.id.iv_storage_ball);
+        mStorageText = (TextView) view.findViewById(R.id.tv_storage_enough);
     }
 
     @Override
@@ -116,7 +119,8 @@ public class ClearMasterFragment extends Fragment {
 
     private void setStorageBall() {
         String sdTotalSize = SdcardUtil.getSDTotalSize(getActivity());
-        String sdAvailableSize = SdcardUtil.getSDAvailableSize(getActivity());
+        long sdAvailable = SdcardUtil.getSDAvailableSize(getActivity());
+        String sdAvailableSize = Formatter.formatFileSize(getActivity(), sdAvailable);
         mStorageTotal.setText(sdTotalSize);
         mStorageAvailable.setText(sdAvailableSize);
         ViewGroup.LayoutParams remainLayoutParams = mStorageRemain.getLayoutParams();
@@ -124,6 +128,13 @@ public class ClearMasterFragment extends Fragment {
         double remainRatio = SdcardUtil.getAvailRatio(getActivity());
         remainLayoutParams.height = (int) (ballLayoutParams.height * remainRatio);
         mStorageRemain.setLayoutParams(remainLayoutParams);
+        if (sdAvailable < 524288000) {  // 剩余空间小于500M(524288000b) 則更换颜色和文字
+            mStorageRemain.setBackgroundColor(Color.RED);
+            mStorageText.setText(getResources().getText(R.string.storage_insufficient_text));
+        } else {
+            mStorageRemain.setBackgroundColor(Color.GREEN);
+            mStorageText.setText(getResources().getText(R.string.storage_enough_text));
+        }
     }
 
 }
