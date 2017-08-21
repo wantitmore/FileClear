@@ -77,6 +77,7 @@ public class ClearMasterFragment extends Fragment {
         mStorageRemain = view.findViewById(R.id.storage_remain);
         mStorageBall = (ImageView)view.findViewById(R.id.iv_storage_ball);
         mStorageText = (TextView) view.findViewById(R.id.tv_storage_enough);
+        mOneKeyClear.setNextFocusUpId(R.id.rb_one_key_clear);
     }
 
     @Override

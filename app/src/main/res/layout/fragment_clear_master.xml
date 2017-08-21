@@ -7,70 +7,76 @@
     tools:context="com.konka.fileclear.fragments.ClearMasterFragment">
 
     <!-- storage ball view start -->
-    <com.konka.fileclear.view.CircleLayout
-        android:layout_width="205dp"
-        android:layout_height="205dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="84dp"
-        android:layout_marginTop="105dp">
+    <RelativeLayout
 
-        <ImageView
-            android:id="@+id/iv_storage_ball"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+        <com.konka.fileclear.view.CircleLayout
             android:layout_width="205dp"
             android:layout_height="205dp"
-            android:layout_centerInParent="true"
-            android:src="@drawable/storage_ball" />
-
-        <View
-            android:id="@+id/storage_remain"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="84dp"
             android:layout_alignParentBottom="true"
-            android:background="@android:color/holo_green_light"
-            android:padding="3dp" />
+            android:layout_marginBottom="178dp"
+            >
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true">
+            <ImageView
+                android:id="@+id/iv_storage_ball"
+                android:layout_width="205dp"
+                android:layout_height="205dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/storage_ball" />
 
-            <TextView
-                android:id="@+id/tv_storage_available"
+            <View
+                android:id="@+id/storage_remain"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:background="@android:color/holo_green_light"
+                android:padding="3dp" />
+
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/storage_available" />
+                android:layout_centerInParent="true">
 
-            <TextView
-                android:id="@+id/tv_storage_available_size"
+                <TextView
+                    android:id="@+id/tv_storage_available"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/storage_available" />
+
+                <TextView
+                    android:id="@+id/tv_storage_available_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/tv_storage_available"
+                    android:text="@string/storage_available_size" />
+            </RelativeLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/tv_storage_available"
-                android:text="@string/storage_available_size" />
-        </RelativeLayout>
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="20dp"
-            android:gravity="center"
-            android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tv_storage_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/storage_total" />
 
-            <TextView
-                android:id="@+id/tv_storage_total"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/storage_total" />
-
-            <TextView
-                android:id="@+id/tv_storage_total_size"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/storage_available_size" />
-        </LinearLayout>
-    </com.konka.fileclear.view.CircleLayout>
+                <TextView
+                    android:id="@+id/tv_storage_total_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/storage_available_size" />
+            </LinearLayout>
+        </com.konka.fileclear.view.CircleLayout>
+    </RelativeLayout>
     <!-- storage ball view end -->
 
     <!-- right part view start -->
@@ -79,7 +85,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_marginStart="377dp"
-        android:layout_marginTop="81dp"
+        android:layout_marginTop="40dp"
         android:orientation="vertical">
 
         <TextView
@@ -145,20 +151,27 @@
                 style="@style/home_right_side_text"
                 android:text="@string/cleanup_total_size_value" />
         </LinearLayout>
-        <Button
-            android:id="@+id/btn_optimizi"
-            android:layout_width="160dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="50dp"
-            android:background="@drawable/one_key_clean_sel"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:textSize="18sp"
-            android:textColor="#fff"
-            android:nextFocusUp="@id/rg_main"
-            android:text="@string/one_key_cleanup" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            >
+            <Button
+                android:id="@+id/btn_optimizi"
+                android:layout_alignParentBottom="true"
+                android:layout_width="160dp"
+                android:layout_height="60dp"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="99dp"
+                android:background="@drawable/one_key_clean_sel"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textSize="18sp"
+                android:textColor="#fff"
+                android:text="@string/one_key_cleanup" />
+        </RelativeLayout>
     </LinearLayout>
-    <!-- storage ball view end -->
+    <!-- right part view end -->
 
 
 </RelativeLayout>
