@@ -1,6 +1,5 @@
 package com.konka.fileclear.activity;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +14,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.RemoteException;
 import android.os.StatFs;
-import android.support.v4.app.ActivityCompat;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.view.View;
@@ -57,11 +55,6 @@ public class ClearMasterResultActivity extends Activity implements View.OnClickL
     private LinearLayout mClearResult;
     private TextView mCleanSize, mKillAppNum, mCacheTrash, mDeleteFile;;
     private long mUselessFile;
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-    };
     private String mFileSize;
     private String retStrFormatNowDate;
     private long cleanSize;
@@ -77,7 +70,7 @@ public class ClearMasterResultActivity extends Activity implements View.OnClickL
         setContentView(R.layout.activity_clear_master_result);
         initView();
         initListener();
-        verifyStoragePermissions(this);
+//        verifyStoragePermissions(this);
         startScanning();
     }
 
@@ -98,20 +91,6 @@ public class ClearMasterResultActivity extends Activity implements View.OnClickL
 
     private void initListener() {
         mDone.setOnClickListener(this);
-    }
-
-    public static void verifyStoragePermissions(Activity activity) {
-        // Check if we have write permission
-        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
-            ActivityCompat.requestPermissions(
-                    activity,
-                    PERMISSIONS_STORAGE,
-                    REQUEST_EXTERNAL_STORAGE
-            );
-        }
     }
 
     private void startScanning() {

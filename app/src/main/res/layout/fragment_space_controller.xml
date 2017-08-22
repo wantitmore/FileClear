@@ -19,7 +19,7 @@
         android:layout_marginStart="68dp"
         android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
         <ImageButton
             android:id="@+id/ib_image"
             android:src="@drawable/images"
