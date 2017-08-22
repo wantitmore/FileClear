@@ -33,5 +33,12 @@
         <item name="android:background">@drawable/one_key_clean_sel</item>
         <item name="android:textColor">@color/color_white</item>
     </style>
+    
+    <style name="space_control_img">
+        <item name="android:background">@null</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">21dp</item>
+    </style>
 
 </resources>

@@ -2,14 +2,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.konka.fileclear.fragments.SpaceControllerFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <ImageView
-        android:id="@+id/iv_deep_clear"
-
+    <ImageButton
+        android:id="@+id/ib_deep_clear"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="68dp"
         android:src="@drawable/depth_clean"
+        android:background="@null"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_marginTop="34dp"
+        android:layout_marginStart="68dp"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/ib_image"
+            android:src="@drawable/images"
+            style="@style/space_control_img" />
+        <ImageButton
+            android:id="@+id/ib_video"
+            android:src="@drawable/video"
+            style="@style/space_control_img" />
+        <ImageButton
+            android:id="@+id/ib_music"
+            android:src="@drawable/music"
+            style="@style/space_control_img" />
+        <ImageButton
+            android:id="@+id/ib_apk"
+            android:src="@drawable/apk"
+            style="@style/space_control_img" />
+        <ImageButton
+            android:id="@+id/ib_others"
+            android:src="@drawable/others"
+            style="@style/space_control_img" />
+    </LinearLayout>
 
 </LinearLayout>

@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="20dp"
+        android:gravity="center_vertical"
         >
             <RadioButton
                 android:id="@+id/rb_one_key_clear"
