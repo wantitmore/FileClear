@@ -6,12 +6,14 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg"
     android:orientation="vertical"
-    tools:context="com.konka.fileclear.activity.AudioActivity">
+    tools:context="com.konka.fileclear.activity.ImageActivity">
     <!--title start-->
-    <include layout="@layout/title_delete"/>
+    <include
+        layout="@layout/title_delete"
+        />
     <!--title end-->
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_audio"
-        style="@style/recyclerview_style"/>
-
+        android:id="@+id/recycler_image"
+        style="@style/recyclerview_style"
+        />
 </LinearLayout>

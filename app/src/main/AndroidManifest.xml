@@ -26,7 +26,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.ClearMasterResultActivity" />
-        <activity android:name=".activity.AudioActivity"></activity>
+        <activity android:name=".activity.AudioActivity" />
+        <activity android:name=".activity.ImageActivity"></activity>
     </application>
 
 </manifest>

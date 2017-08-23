@@ -7,6 +7,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 
 import com.konka.fileclear.entity.Audio;
+import com.konka.fileclear.entity.Image;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -20,29 +21,32 @@ public class MediaResourceManager {
 
     private static final String TAG = "MediaResourceManager";
 
-//    public static List<String> getImagesFromMedia() {
-//        ArrayList<String> pictures = new ArrayList<String>();
-//        Cursor c = null;
-//        try {
-//            c = mContentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, new String[] { "_id", "_data", "_size" }, null, null, null);
-//            while (c.moveToNext()) {
-//                String path = c.getString(c.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
-//                /*if (!FileUtils.isExists(path)) {
-//                    continue;
-//                }
-//                long size = c.getLong(c.getColumnIndexOrThrow(MediaStore.Images.Media.SIZE));
-//                FileCategoryPageFragment.mAllPictureSize += size;
-//                pictures.add(path);*/
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            if (c != null) {
-//                c.close();
-//            }
-//        }
-//        return pictures;
-//    }
+    public static List<Image> getImagesFromMedia(Context context) {
+        ContentResolver mContentResolver = context.getContentResolver();
+        ArrayList<Image> pictures = new ArrayList<>();
+        Cursor c = null;
+        try {
+            c = mContentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, new String[] { "_id", "_data", "_size" }, null, null, null);
+            while (c != null && c.moveToNext()) {
+                String path = c.getString(c.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
+                if (!new File(path).exists()) {
+                    continue;
+                }
+                long size = c.getLong(c.getColumnIndexOrThrow(MediaStore.Images.Media.SIZE));
+                Image image = new Image();
+                image.setPath(path);
+                pictures.add(image);
+                Log.d(TAG, "getImagesFromMedia: audio " + path);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (c != null) {
+                c.close();
+            }
+        }
+        return pictures;
+    }
 
     public static List<Audio> getAudiosFromMedia(Context context) {
         ContentResolver mContentResolver = context.getContentResolver();

@@ -29,10 +29,9 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.MyViewHolder
 
     @Override
     public AudioAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        MyViewHolder holder = new MyViewHolder(LayoutInflater.from(
+        return new MyViewHolder(LayoutInflater.from(
                 mContext).inflate(R.layout.item_audio, parent,
                 false));
-        return holder;
     }
 
     @Override
