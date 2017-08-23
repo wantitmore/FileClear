@@ -1,7 +1,9 @@
 package com.konka.fileclear.activity;
 
 import android.app.Activity;
+import android.media.MediaScannerConnection;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
@@ -30,6 +32,11 @@ public class AudioActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
+//        Uri data = Uri.parse("file://" + Environment.getExternalStorageDirectory().getAbsolutePath() + "/Music/Sleep Ay.mp3");
+//        Log.d("MediaScan","fileScan filePath:"+filePath);
+//        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, data));
+        MediaScannerConnection.scanFile(this, new String[] { Environment
+                .getExternalStorageDirectory().getAbsolutePath() }, null, null);
         initThread();
     }
 
