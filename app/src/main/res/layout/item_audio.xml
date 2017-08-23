@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="39dp"
+    >
+    <ImageView
+        android:id="@+id/iv_audio"
+        android:scaleType="fitXY"
+        android:focusable="true"
+        android:background="@null"
+        android:layout_width="165dp"
+        android:layout_height="200dp"
+        android:src="@drawable/icon_music"
+        />
+
+    <View
+        android:layout_alignBottom="@id/iv_audio"
+        android:layout_alignStart="@id/iv_audio"
+        android:background="@color/color_green"
+        android:layout_width="165dp"
+        android:layout_height="30dp"/>
+
+    <TextView
+        android:id="@+id/audio_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/songs"
+        android:textSize="10sp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:layout_marginEnd="50dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/color_white"
+        android:layout_alignBottom="@id/iv_audio"
+        />
+    <ImageView
+        android:layout_marginBottom="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/music1"
+        android:layout_marginEnd="10dp"
+        android:layout_alignBottom="@id/iv_audio"
+        android:layout_alignEnd="@id/iv_audio"
+        />
+
+</RelativeLayout>

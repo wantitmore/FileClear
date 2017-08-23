@@ -1,12 +1,17 @@
 package com.konka.fileclear.activity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.konka.fileclear.R;
+import com.konka.fileclear.adapter.AudioAdapter;
 import com.konka.fileclear.common.MediaResourceManager;
 import com.konka.fileclear.entity.Audio;
 
@@ -14,21 +19,30 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AudioActivity extends AppCompatActivity {
+public class AudioActivity extends Activity {
 
     private static final String TAG = "AudioActivity";
     private static List<Audio> audios;
     private AudioHandler handler = new AudioHandler(this);
+    private RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_audio);
-        audios = new ArrayList<>();
+        initView();
         initThread();
     }
 
+    private void initView() {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.activity_audio);
+        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+    }
+
     private void initThread() {
+        audios = new ArrayList<>();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -38,7 +52,7 @@ public class AudioActivity extends AppCompatActivity {
         }).start();
     }
 
-    private static class AudioHandler extends Handler {
+    private class AudioHandler extends Handler {
 
         private final WeakReference<AudioActivity> mActivity;
 
@@ -55,8 +69,16 @@ public class AudioActivity extends AppCompatActivity {
                     case 0 :
                         Log.d(TAG, "handleMessage: " + audios.size());
                         //show audio RecyclerView
+                        mRecyclerView .setLayoutManager(new GridLayoutManager(AudioActivity.this, 5));
+                        mRecyclerView.setAdapter(new AudioAdapter(AudioActivity.this, audios));
                 }
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        handler.removeCallbacksAndMessages(null);
     }
 }

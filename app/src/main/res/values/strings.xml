@@ -29,4 +29,7 @@
     <string name="minute_ago">minute ago</string>
     <string name="hour_ago">hour ago</string>
     <string name="day_ago">day ago</string>
+    <string name="video">Video</string>
+    <string name="press_ok_delete">Press [OK] button to delete it!</string>
+    <string name="songs">songs</string>
 </resources>
