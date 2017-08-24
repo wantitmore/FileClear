@@ -37,7 +37,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
     @Override
     public ImageAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new MyViewHolder(LayoutInflater.from(
-                mContext).inflate(R.layout.item_audio, parent,
+                mContext).inflate(R.layout.item_image, parent,
                 false));
     }
 
@@ -73,7 +73,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
         private ImageView imageView;
         MyViewHolder(View itemView) {
             super(itemView);
-            imageView = (ImageView) itemView.findViewById(R.id.iv_audio);
+            imageView = (ImageView) itemView.findViewById(R.id.iv_image);
         }
     }
 

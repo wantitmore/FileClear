@@ -15,6 +15,7 @@ import com.konka.fileclear.R;
 import com.konka.fileclear.activity.AplicationActivity;
 import com.konka.fileclear.activity.AudioActivity;
 import com.konka.fileclear.activity.ImageActivity;
+import com.konka.fileclear.activity.OthersActivity;
 import com.konka.fileclear.activity.VideoActivity;
 import com.konka.fileclear.common.MediaResourceManager;
 
@@ -102,7 +103,7 @@ public class SpaceControllerFragment extends Fragment implements View.OnFocusCha
                 startActivity(new Intent(getActivity(), AplicationActivity.class));
                 break;
             case R.id.ib_others :
-
+                startActivity(new Intent(getActivity(), OthersActivity.class));
                 break;
         }
     }
