@@ -36,6 +36,7 @@
         android:layout_alignBottom="@id/iv_audio"
         />
     <ImageView
+        android:id="@+id/iv_small_icon"
         android:layout_marginBottom="5dp"
         android:layout_marginStart="5dp"
         android:layout_width="wrap_content"

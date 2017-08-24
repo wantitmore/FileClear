@@ -8,6 +8,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.konka.fileclear.R;
 import com.konka.fileclear.adapter.ImageAdapter;
@@ -69,5 +70,7 @@ public class ImageActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_image);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_image);
+        TextView title = (TextView) findViewById(R.id.tv_title);
+        title.setText(R.string.image);
     }
 }

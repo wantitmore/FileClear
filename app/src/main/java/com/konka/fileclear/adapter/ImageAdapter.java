@@ -69,28 +69,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
 
     }
 
-   /* class LoadImageThread extends Thread {
-
-        @Override
-        public void run() {
-            int end = mStart + mCount;
-            for (int i = mStart; i < end; i++) {
-                String path = mImages.get(i);
-                Bitmap bitmap = mImageLoader.getBitmapFromMemoryCache(path);
-                if (bitmap == null) {
-                    bitmap = PictureLoader.decodeSampledBitmapFromResource(path, 120);
-                    mImageLoader.addBitmapToMemoryCache(path, bitmap);
-                }
-                BitmapDrawable bitmapDrawable = (BitmapDrawable)bitmap;
-                Drawable drawable = (Drawable)bitmapDrawable;
-                Message msg = new Message();
-                msg.what = 0;
-                msg.obj = new MyViewHolder(bitmap);
-                mHandler.sendMessage(msg);
-            }
-        }
-    }*/
-
     class MyViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageView;
         MyViewHolder(View itemView) {

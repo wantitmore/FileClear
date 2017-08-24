@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.konka.fileclear.R;
 import com.konka.fileclear.adapter.AudioAdapter;
@@ -27,6 +28,7 @@ public class AudioActivity extends Activity {
     private static List<Audio> audios;
     private AudioHandler handler = new AudioHandler(this);
     private RecyclerView mRecyclerView;
+    private TextView mTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,9 @@ public class AudioActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_audio);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_audio);
+        mTitle = (TextView) findViewById(R.id.tv_title);
+        mTitle.setText(getResources().getText(R.string.music));
+
     }
 
     private void initThread() {
