@@ -2,10 +2,10 @@ package com.konka.fileclear.common;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.MediaMetadataRetriever;
 import android.provider.MediaStore;
 import android.util.Log;
 
@@ -24,40 +24,6 @@ import java.util.List;
 public class MediaResourceManager {
 
     private static final String TAG = "MediaResourceManager";
-
-    public static Bitmap getVideoThumbnail(Context context, int id) {
-        ContentResolver mContentResolver = context.getContentResolver();
-        Bitmap bitmap;
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inDither = false;
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        bitmap = MediaStore.Video.Thumbnails.getThumbnail(mContentResolver, id, MediaStore.Images.Thumbnails.MICRO_KIND, options);
-        return bitmap;
-    }
-
-    public static Bitmap getVideoThumbnail(String filePath) {
-        Bitmap bitmap = null;
-        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-        try {
-            retriever.setDataSource(filePath);
-            bitmap = retriever.getFrameAtTime();
-        }
-        catch(IllegalArgumentException e) {
-            e.printStackTrace();
-        }
-        catch (RuntimeException e) {
-            e.printStackTrace();
-        }
-        finally {
-            try {
-                retriever.release();
-            }
-            catch (RuntimeException e) {
-                e.printStackTrace();
-            }
-        }
-        return bitmap;
-    }
 
     public static List<Image> getImagesFromMedia(Context context) {
         ContentResolver mContentResolver = context.getContentResolver();
@@ -143,5 +109,21 @@ public class MediaResourceManager {
             }
         }
         return videos;
+    }
+
+    public static List<PackageInfo> getCustomApps(Context context) {
+        List<PackageInfo> apps = new ArrayList<>();
+        PackageManager pm = context.getPackageManager();
+
+        List<PackageInfo> paklist = pm.getInstalledPackages(0);
+        for (int i = 0; i < paklist.size(); i++) {
+            PackageInfo pak = paklist.get(i);
+            if ((pak.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) <= 0 && !pak.packageName.equals("com.konka.fileclear")) {
+                apps.add(pak);
+                String str_name = pak.applicationInfo.loadLabel(pm).toString();
+                Log.d(TAG, "getCustomApps: " + pak.packageName + ", " + str_name);
+            }
+        }
+        return apps;
     }
 }

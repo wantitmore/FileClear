@@ -228,7 +228,7 @@ public class ClearMasterResultActivity extends Activity implements View.OnClickL
                             totalCache += cache;
                             isFirstClear = false;
                             Log.d(TAG, "run: first clear--");
-                        } else if (cache > 12288) {
+                        } else if (cache > 12288) {  //some app contains 12k cache which can not be clear
                             totalCache += cache;
                             Log.d(TAG, "run: numermous clear--");
                         }

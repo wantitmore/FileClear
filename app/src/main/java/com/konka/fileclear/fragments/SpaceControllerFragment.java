@@ -12,6 +12,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 
 import com.konka.fileclear.R;
+import com.konka.fileclear.activity.AplicationActivity;
 import com.konka.fileclear.activity.AudioActivity;
 import com.konka.fileclear.activity.ImageActivity;
 import com.konka.fileclear.activity.VideoActivity;
@@ -97,7 +98,8 @@ public class SpaceControllerFragment extends Fragment implements View.OnFocusCha
                 startActivity(new Intent(getActivity(), AudioActivity.class));
                 break;
             case R.id.ib_apk :
-
+//                MediaResourceManager.getCustomApps(getActivity());
+                startActivity(new Intent(getActivity(), AplicationActivity.class));
                 break;
             case R.id.ib_others :
 

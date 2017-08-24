@@ -28,7 +28,8 @@
         <activity android:name=".activity.ClearMasterResultActivity" />
         <activity android:name=".activity.AudioActivity" />
         <activity android:name=".activity.ImageActivity" />
-        <activity android:name=".activity.VideoActivity"></activity>
+        <activity android:name=".activity.VideoActivity" />
+        <activity android:name=".activity.AplicationActivity"></activity>
     </application>
 
 </manifest>

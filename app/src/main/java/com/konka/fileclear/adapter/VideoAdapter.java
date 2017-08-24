@@ -42,9 +42,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
         Video video = mVideos.get(position);
         String path = video.getPath();
         String name = video.getName();
-//        Bitmap thumbnail = MediaResourceManager.getVideoThumbnail(mContext, video.getId());
         Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(path, MediaStore.Video.Thumbnails.MINI_KIND);
-//        Bitmap thumbnail = MediaResourceManager.getVideoThumbnail(path);
 //        Bitmap thumbnail = getVideoThumbnail(path);
         holder.name.setText(name);
         holder.thumbnail.setImageBitmap(thumbnail);
