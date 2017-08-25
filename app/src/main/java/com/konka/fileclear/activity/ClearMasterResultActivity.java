@@ -40,12 +40,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import static android.content.ContentValues.TAG;
 import static android.view.View.GONE;
-import static com.konka.fileclear.R.id.btn_done;
 
-public class ClearMasterResultActivity extends Activity implements View.OnClickListener{
+public class ClearMasterResultActivity extends Activity implements View.OnClickListener {
 
+    private static final String TAG = "ClearMasterResult";
     private ImageView mFan;
     private TextView mScanPath, mClearing;
     private PackageManager pm;   //包管理
@@ -53,13 +52,15 @@ public class ClearMasterResultActivity extends Activity implements View.OnClickL
     private boolean isFirstClear = true;
     private RelativeLayout mScanningApp, mScanningLayout;
     private LinearLayout mClearResult;
-    private TextView mCleanSize, mKillAppNum, mCacheTrash, mDeleteFile;;
+    private TextView mCleanSize, mKillAppNum, mCacheTrash, mDeleteFile;
+    ;
     private long mUselessFile;
     private String mFileSize;
     private String retStrFormatNowDate;
     private long cleanSize;
     private long totalCleanSize;
     private Button mDone;
+    private Button mDepthClear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +92,7 @@ public class ClearMasterResultActivity extends Activity implements View.OnClickL
 
     private void initListener() {
         mDone.setOnClickListener(this);
+        mDepthClear.setOnClickListener(this);
     }
 
     private void startScanning() {
@@ -103,13 +105,13 @@ public class ClearMasterResultActivity extends Activity implements View.OnClickL
     //扫描手机里面所有的应用程序的缓存
     private void scanCaches() {
         pm = getPackageManager();
-        new Thread(){
+        new Thread() {
             public void run() {
                 Method getPackageSizeInfoMethod = null;
                 //1.先获取PackageManager提供的所有方法
                 Method[] methods = PackageManager.class.getMethods();
                 for (Method method : methods) {
-                    if("getPackageSizeInfo".equals(method.getName())) {
+                    if ("getPackageSizeInfo".equals(method.getName())) {
                         getPackageSizeInfoMethod = method;
                         break;
                     }
@@ -144,7 +146,9 @@ public class ClearMasterResultActivity extends Activity implements View.OnClickL
                         }, 1000);
                     }
                 });
-            };
+            }
+
+            ;
         }.start();
     }
 
@@ -201,10 +205,13 @@ public class ClearMasterResultActivity extends Activity implements View.OnClickL
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case btn_done :
+            case R.id.btn_done:
 //                startActivity(new Intent(ClearMasterResultActivity.this, MainActivity.class));
                 finish();
                 break;
+            case R.id.btn_depth_clean:
+                //depth clean
+                startActivity(new Intent(ClearMasterResultActivity.this, DeepClearActivity.class));
         }
     }
 
@@ -278,7 +285,7 @@ public class ClearMasterResultActivity extends Activity implements View.OnClickL
     private void CleanAllCache() {
         Method[] methods = PackageManager.class.getDeclaredMethods();
         for (Method method : methods) {
-            if("freeStorageAndNotify".equals(method.getName())) {
+            if ("freeStorageAndNotify".equals(method.getName())) {
                 try {
                     method.invoke(pm, /*Integer.MAX_VALUE*/(getEnvironmentSize() - 1L), new MyPackDataObserver());
                 } catch (InvocationTargetException e) {
@@ -296,16 +303,17 @@ public class ClearMasterResultActivity extends Activity implements View.OnClickL
     }
 
     private void initView() {
-            mDone = (Button) findViewById(btn_done);
-            mFan = (ImageView) findViewById(R.id.iv_fan);
-            mScanPath = (TextView) findViewById(R.id.tv_scan_path);
-            mScanningApp = (RelativeLayout) findViewById(R.id.rl_scanning_app);
-            mScanningLayout = (RelativeLayout) findViewById(R.id.rl_scanning);
-            mClearResult = (LinearLayout) findViewById(R.id.ll_clear_result);
-            mClearing = (TextView) findViewById(R.id.tv_clearing);
-            mCleanSize = (TextView) findViewById(R.id.tv_clean_size);
-            mKillAppNum = (TextView) findViewById(R.id.tv_running_apps);
-            mCacheTrash = (TextView) findViewById(R.id.tv_cache_trash);
-            mDeleteFile = (TextView) findViewById(R.id.tv_app_cache);
+        mDone = (Button) findViewById(R.id.btn_done);
+        mDepthClear = (Button) findViewById(R.id.btn_depth_clean);
+        mFan = (ImageView) findViewById(R.id.iv_fan);
+        mScanPath = (TextView) findViewById(R.id.tv_scan_path);
+        mScanningApp = (RelativeLayout) findViewById(R.id.rl_scanning_app);
+        mScanningLayout = (RelativeLayout) findViewById(R.id.rl_scanning);
+        mClearResult = (LinearLayout) findViewById(R.id.ll_clear_result);
+        mClearing = (TextView) findViewById(R.id.tv_clearing);
+        mCleanSize = (TextView) findViewById(R.id.tv_clean_size);
+        mKillAppNum = (TextView) findViewById(R.id.tv_running_apps);
+        mCacheTrash = (TextView) findViewById(R.id.tv_cache_trash);
+        mDeleteFile = (TextView) findViewById(R.id.tv_app_cache);
     }
 }

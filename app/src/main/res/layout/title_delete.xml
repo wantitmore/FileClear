@@ -11,6 +11,7 @@
         android:text="@string/video"
         />
     <TextView
+        android:id="@+id/delete"
         android:layout_marginEnd="56dp"
         android:layout_alignParentEnd="true"
         style="@style/text_base"

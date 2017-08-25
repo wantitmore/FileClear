@@ -18,19 +18,20 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity.MainActivity"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"></activity>
+        <activity android:name=".activity.ClearMasterResultActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.ClearMasterResultActivity" />
         <activity android:name=".activity.AudioActivity" />
         <activity android:name=".activity.ImageActivity" />
         <activity android:name=".activity.VideoActivity" />
         <activity android:name=".activity.AplicationActivity" />
-        <activity android:name=".activity.OthersActivity"></activity>
+        <activity android:name=".activity.OthersActivity" />
+        <activity android:name=".activity.DeepClearActivity"></activity>
     </application>
 
 </manifest>
