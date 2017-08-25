@@ -25,7 +25,6 @@ import org.litepal.tablemanager.Connector;
 
 import java.util.List;
 
-import static android.content.ContentValues.TAG;
 import static com.konka.fileclear.R.id.tv_clean_last_time;
 
 /**
@@ -41,6 +40,7 @@ public class ClearMasterFragment extends Fragment {
     private ImageView mStorageBall;
     private long mTotalClearSize;
     private TextView mStorageText;
+    private static final String TAG = "ClearMasterFragment";
 
     public ClearMasterFragment() {
         // Required empty public constructor

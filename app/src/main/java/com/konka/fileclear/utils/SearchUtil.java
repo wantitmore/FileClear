@@ -7,6 +7,8 @@ import android.provider.MediaStore;
 import android.text.format.Formatter;
 import android.util.Log;
 
+import com.konka.fileclear.entity.BigFile;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
@@ -68,9 +70,9 @@ public class SearchUtil {
         return searchFileList;
     }
 
-    public static ArrayList<String> getBigFileList(Context context, String path) {
+    private static ArrayList<BigFile> bigFileList = new ArrayList<>();
+    public static ArrayList<BigFile> getBigFileList(Context context, String path) {
 
-        ArrayList<String> searchFileList = new ArrayList<>();
         File file = new File(path);
 //        Log.d(TAG, "getallFiles: file is " + file + ", " + file.exists());
         if (file.exists()) {
@@ -81,7 +83,6 @@ public class SearchUtil {
                         continue;
                     }
                     if (file2.isDirectory()) {
-//                        Log.d(TAG, "getallFiles: file is " + file);
                         getBigFileList(context, file2.getAbsolutePath());// 递归查找
                     } else {
                         long fileSize;
@@ -90,19 +91,28 @@ public class SearchUtil {
                             FileInputStream fis;
                             fis = new FileInputStream(copyf);
                             fileSize = (long) fis.available();
-
+                            fis.close();
                             if (fileSize > 10240 * 1024) {  // larger than 10M
-                                searchFileList.add(file2.getAbsolutePath());
-                                String fileSize1 = Formatter.formatFileSize(context, fileSize);
-                                Log.d(TAG, "getallFiles: " + file2.getAbsolutePath() + ", size is " + fileSize1);
+                                BigFile bigFile = new BigFile();
+                                String bigFilePath = file2.getAbsolutePath();
+                                int lastIndex = bigFilePath.lastIndexOf("/");
+                                String name = bigFilePath.substring(lastIndex + 1);
+                                String size = Formatter.formatFileSize(context, fileSize);
+                                bigFile.setName(name);
+                                bigFile.setPath(bigFilePath);
+                                bigFile.setSize(size);
+                                bigFileList.add(bigFile);
+                                Log.d(TAG, "getallFiles: " + file2.getAbsolutePath() + ", size is " + size);
                             }
                         } catch (Exception e) {
+                            e.printStackTrace();
                             Log.d(TAG, "getBigFileList: error " + e.getCause().getMessage());
                         }
                     }
                 }
             }
         }
-        return searchFileList;
+        Log.d(TAG, "getBigFileList: big file size is " + bigFileList.size());
+        return bigFileList;
     }
 }

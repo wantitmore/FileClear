@@ -17,13 +17,12 @@
         android:src="@drawable/search" />
 
     <include
-        android:visibility="gone"
         layout="@layout/title_delete"
         />
     <!--title end-->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_deep"
-        android:visibility="gone"
+
         style="@style/recyclerview_style"
         />
 

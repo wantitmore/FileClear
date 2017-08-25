@@ -3,6 +3,9 @@ package com.konka.fileclear.activity;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -12,9 +15,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.konka.fileclear.R;
+import com.konka.fileclear.adapter.BigFileAdapter;
+import com.konka.fileclear.entity.BigFile;
 import com.konka.fileclear.utils.SearchUtil;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class DeepClearActivity extends Activity {
 
@@ -22,6 +27,22 @@ public class DeepClearActivity extends Activity {
     private ImageView mSearchAnim;
     private TextView mTitle, mDeleteHint;
     private RecyclerView mRecyclerView;
+    private List<BigFile> mBigFiles;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0:
+                    Log.d(TAG, "handleMessage: size is " + mBigFiles.size());
+                    viewToggle(true);
+                    mRecyclerView.setLayoutManager(new LinearLayoutManager(DeepClearActivity.this));
+                    BigFileAdapter bigFileAdapter = new BigFileAdapter(DeepClearActivity.this, mBigFiles);
+                    mRecyclerView.setAdapter(bigFileAdapter);
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,16 +52,21 @@ public class DeepClearActivity extends Activity {
         startDeepSearch();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        handler.removeCallbacksAndMessages(null);
+    }
+
     private void startDeepSearch() {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Log.d(TAG, "run: start search2");
-                ArrayList<String> bigFileList = SearchUtil.getBigFileList(DeepClearActivity.this, Environment.getExternalStorageDirectory().getAbsolutePath());
-                Log.d(TAG, "run: start search");
-                for (String bigFile : bigFileList) {
-                    Log.d(TAG, "run: " + bigFile);
-                }
+                Log.d(TAG, "run: startDeepSearch");
+                mBigFiles = SearchUtil.getBigFileList(DeepClearActivity.this, Environment.getExternalStorageDirectory().getAbsolutePath());
+                int size = mBigFiles.size();
+                Log.d(TAG, "run:big file size is " + size);
+                handler.sendEmptyMessage(0);
             }
         }).start();
     }
