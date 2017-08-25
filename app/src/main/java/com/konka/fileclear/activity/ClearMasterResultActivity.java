@@ -211,6 +211,7 @@ public class ClearMasterResultActivity extends Activity implements View.OnClickL
                 break;
             case R.id.btn_depth_clean:
                 //depth clean
+                Log.d(TAG, "onClick: ---------za");
                 startActivity(new Intent(ClearMasterResultActivity.this, DeepClearActivity.class));
         }
     }

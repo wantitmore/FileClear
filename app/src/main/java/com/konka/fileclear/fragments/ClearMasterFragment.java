@@ -3,7 +3,6 @@ package com.konka.fileclear.fragments;
 
 import android.app.Fragment;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.format.Formatter;
@@ -130,10 +129,10 @@ public class ClearMasterFragment extends Fragment {
         remainLayoutParams.height = (int) (ballLayoutParams.height * remainRatio);
         mStorageRemain.setLayoutParams(remainLayoutParams);
         if (sdAvailable < 524288000) {  // 剩余空间小于500M(524288000b) 則更换颜色和文字
-            mStorageRemain.setBackgroundColor(Color.RED);
+            mStorageRemain.setBackgroundColor(getResources().getColor(R.color.color_red));
             mStorageText.setText(getResources().getText(R.string.storage_insufficient_text));
         } else {
-            mStorageRemain.setBackgroundColor(Color.GREEN);
+            mStorageRemain.setBackgroundColor(getResources().getColor(R.color.color_light_green));
             mStorageText.setText(getResources().getText(R.string.storage_enough_text));
         }
     }

@@ -75,7 +75,7 @@ public class FileUtils {
             Log.d(TAG, "getallFiles: file is " + file + ", " + file.exists());
             if (file.exists()) {
                 File[] files = file.listFiles();
-                if (files.length > 0) {
+                if (files != null && files.length > 0) {
                     for (File file2 : files) {
                         if (file2.isDirectory()) {
                             getallFiles(file2.getAbsolutePath(), clearType);// 递归查找

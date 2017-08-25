@@ -2,7 +2,9 @@ package com.konka.fileclear.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -10,9 +12,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.konka.fileclear.R;
+import com.konka.fileclear.utils.SearchUtil;
+
+import java.util.ArrayList;
 
 public class DeepClearActivity extends Activity {
 
+    private static final String TAG ="DeepClearActivity";
     private ImageView mSearchAnim;
     private TextView mTitle, mDeleteHint;
     private RecyclerView mRecyclerView;
@@ -20,7 +26,23 @@ public class DeepClearActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate: ");
         initView();
+        startDeepSearch();
+    }
+
+    private void startDeepSearch() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(TAG, "run: start search2");
+                ArrayList<String> bigFileList = SearchUtil.getBigFileList(DeepClearActivity.this, Environment.getExternalStorageDirectory().getAbsolutePath());
+                Log.d(TAG, "run: start search");
+                for (String bigFile : bigFileList) {
+                    Log.d(TAG, "run: " + bigFile);
+                }
+            }
+        }).start();
     }
 
     private void initView() {

@@ -9,13 +9,13 @@
 
     <!--Scanning view begin-->
     <include
-        android:visibility="gone"
+
         layout="@layout/scanning" />
     <!--Scanning view end-->
 
     <!--Scan result view start--><!--android:visibility="gone"-->
    <include
-
+       android:visibility="gone"
        layout="@layout/one_key_result"/>
     <!--Scan result view end-->
 </RelativeLayout>
