@@ -22,8 +22,8 @@
     <!--title end-->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_deep"
-
         style="@style/recyclerview_style"
+        android:layout_marginTop="44dp"
         />
 
 </LinearLayout>

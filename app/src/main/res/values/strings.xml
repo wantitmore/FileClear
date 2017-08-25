@@ -34,7 +34,7 @@
     <string name="apk">APK</string>
     <string name="music">Music</string>
     <string name="others">Others</string>
-    <string name="deep_clear">%1$d large files,%2$s of taking up space.</string>
+    <string name="deep_clear">%1$d large files, %2$s of taking up space.</string>
     <string name="press_ok_delete">Press [OK] button to delete it!</string>
     <string name="songs">songs</string>
     <string name="big_file">bigFile</string>

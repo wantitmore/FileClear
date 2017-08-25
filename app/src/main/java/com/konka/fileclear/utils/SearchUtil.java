@@ -70,11 +70,14 @@ public class SearchUtil {
         return searchFileList;
     }
 
-    private static ArrayList<BigFile> bigFileList = new ArrayList<>();
-    public static ArrayList<BigFile> getBigFileList(Context context, String path) {
+    private ArrayList<BigFile> bigFileList = new ArrayList<>();
+    public ArrayList<BigFile> getBigFileList(Context context, String path) {
 
         File file = new File(path);
 //        Log.d(TAG, "getallFiles: file is " + file + ", " + file.exists());
+        if (bigFileList != null) {
+            Log.d(TAG, "getBigFileList: ---------zack  " + bigFileList.size());
+        }
         if (file.exists()) {
             File[] files = file.listFiles();
             if (files != null && files.length > 0) {
@@ -101,8 +104,11 @@ public class SearchUtil {
                                 bigFile.setName(name);
                                 bigFile.setPath(bigFilePath);
                                 bigFile.setSize(size);
+                                bigFile.setRealSize(fileSize);
                                 bigFileList.add(bigFile);
                                 Log.d(TAG, "getallFiles: " + file2.getAbsolutePath() + ", size is " + size);
+                            } else {
+
                             }
                         } catch (Exception e) {
                             e.printStackTrace();

@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.Formatter;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -34,8 +35,13 @@ public class DeepClearActivity extends Activity {
             super.handleMessage(msg);
             switch (msg.what) {
                 case 0:
-                    Log.d(TAG, "handleMessage: size is " + mBigFiles.size());
                     viewToggle(true);
+                    long totalSize = 0;
+                    for (BigFile bigFile : mBigFiles) {
+                        totalSize += bigFile.getRealSize();
+                    }
+                    String size = Formatter.formatFileSize(DeepClearActivity.this, totalSize);
+                    mTitle.setText(getResources().getString(R.string.deep_clear, (mBigFiles == null ? 0 : mBigFiles.size()), size));
                     mRecyclerView.setLayoutManager(new LinearLayoutManager(DeepClearActivity.this));
                     BigFileAdapter bigFileAdapter = new BigFileAdapter(DeepClearActivity.this, mBigFiles);
                     mRecyclerView.setAdapter(bigFileAdapter);
@@ -62,10 +68,8 @@ public class DeepClearActivity extends Activity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Log.d(TAG, "run: startDeepSearch");
-                mBigFiles = SearchUtil.getBigFileList(DeepClearActivity.this, Environment.getExternalStorageDirectory().getAbsolutePath());
-                int size = mBigFiles.size();
-                Log.d(TAG, "run:big file size is " + size);
+                SearchUtil searchUtil = new SearchUtil();
+                mBigFiles = searchUtil.getBigFileList(DeepClearActivity.this, Environment.getExternalStorageDirectory().getAbsolutePath());
                 handler.sendEmptyMessage(0);
             }
         }).start();

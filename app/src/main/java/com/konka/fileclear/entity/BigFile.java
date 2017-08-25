@@ -8,6 +8,16 @@ public class BigFile {
     private int id;
     private String name;
     private String path;
+    private String size;
+    private long realSize;
+
+    public long getRealSize() {
+        return realSize;
+    }
+
+    public void setRealSize(long realSize) {
+        this.realSize = realSize;
+    }
 
     public String getSize() {
         return size;
@@ -16,8 +26,6 @@ public class BigFile {
     public void setSize(String size) {
         this.size = size;
     }
-
-    private String size;
 
     public int getId() {
         return id;

@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import com.konka.fileclear.R;
 import com.konka.fileclear.activity.AplicationActivity;
 import com.konka.fileclear.activity.AudioActivity;
+import com.konka.fileclear.activity.DeepClearActivity;
 import com.konka.fileclear.activity.ImageActivity;
 import com.konka.fileclear.activity.OthersActivity;
 import com.konka.fileclear.activity.VideoActivity;
@@ -84,7 +85,7 @@ public class SpaceControllerFragment extends Fragment implements View.OnFocusCha
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ib_deep_clear :
-
+                startActivity(new Intent(getActivity(), DeepClearActivity.class));
                 break;
             case R.id.ib_image :
 //                MediaResourceManager.getImagesFromMedia(getActivity());
