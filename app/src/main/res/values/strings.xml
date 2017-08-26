@@ -3,6 +3,9 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="clear_master">Clean up</string>
+    <string name="space_controller">Storage Manager</string>
+    <string name="app_controller">App Manager</string>
     <string name="storage_available">Available:</string>
     <string name="storage_total">Total:</string>
     <string name="storage_available_size">2G</string>
@@ -38,4 +41,6 @@
     <string name="press_ok_delete">Press [OK] button to delete it!</string>
     <string name="songs">songs</string>
     <string name="big_file">bigFile</string>
+    <string name="uninstall_app">You can uninstall some apps to get more space available!</string>
+    <string name="delete_app_OK_button">You can press [OK] button to wake up the menu,when the app is selected.You can uninstall the apps in the menu.</string>
 </resources>

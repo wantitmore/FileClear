@@ -27,6 +27,21 @@
         <item name="android:textColor">#fff</item>
         <item name="android:textSize">18sp</item>
     </style>
+
+    <style name="text_main" parent="text_base">
+        <item name="android:focusable">true</item>
+        <item name="android:layout_marginStart">56dp</item>
+    </style>
+    <style name="line_style">
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginStart">56dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:scaleType">fitXY</item>
+        <item name="android:src">@drawable/line</item>
+        <item name="android:visibility">invisible</item>
+    </style>
+
     <style name="home_right_side_text">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

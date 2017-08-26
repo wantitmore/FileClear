@@ -1,7 +1,4 @@
 <resources>
-    <string name="clear_master">一键清理</string>
-    <string name="space_controller">空间管理</string>
-    <string name="app_controller">应用管理</string>
     <!--<string name="cleanup_last_time">上次优化时间: </string>-->
     <!--<string name="cleanup_last_size">上次优化空间: </string>-->
     <!--<string name="cleanup_total_size">优化空间总量: </string>-->

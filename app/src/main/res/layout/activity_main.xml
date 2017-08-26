@@ -2,56 +2,62 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/bg"
-    >
+    android:orientation="vertical">
 
-    <RadioGroup
+    <LinearLayout
         android:id="@+id/rg_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="20dp"
+        android:layout_marginTop="56dp"
         android:gravity="center_vertical"
-        >
-            <RadioButton
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
                 android:id="@+id/rb_one_key_clear"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/clear_master"
-                style="?android:attr/borderlessButtonStyle"
-                android:button="@null"
-                android:layout_marginStart="56dp"
-                android:textColor="@color/color_8fbeff"
-                android:textSize="18sp"
+                style="@style/text_main"
+                android:text="@string/clear_master" />
+            <ImageView
+                android:id="@+id/line_clear_master"
+                style="@style/line_style"
                 />
-            <RadioButton
-                android:id="@+id/rb_space_controller"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/space_controller"
-                style="?android:attr/borderlessButtonStyle"
-                android:button="@null"
-                android:layout_marginStart="56dp"
-                android:textColor="@color/color_8fbeff"
-                android:textSize="18sp"
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/rb_space_controller"
+            style="@style/text_main"
+            android:text="@string/space_controller" />
+            <ImageView
+                android:id="@+id/line_storage_manager"
+                style="@style/line_style"
                 />
-            <RadioButton
-                android:id="@+id/rb_app_controller"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/app_controller"
-                style="?android:attr/borderlessButtonStyle"
-                android:button="@null"
-                android:layout_marginStart="56dp"
-                android:textColor="@color/color_8fbeff"
-                android:textSize="18sp"
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/rb_app_controller"
+            style="@style/text_main"
+            android:text="@string/app_controller" />
+            <ImageView
+                android:id="@+id/line_app_manager"
+                style="@style/line_style"
                 />
-    </RadioGroup>
+        </LinearLayout>
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/fl_main_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
 </LinearLayout>

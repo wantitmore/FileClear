@@ -1,13 +1,58 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.konka.fileclear.fragments.AppControllerFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="appController" />
+    <ImageView
+        android:id="@+id/slogan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="84dp"
+        android:layout_marginBottom="191dp"
+        android:src="@drawable/app_manage" />
 
-</FrameLayout>
+    <Button
+        android:id="@+id/app_controller"
+        android:text="@string/app_controller"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="162dp"
+        android:layout_marginStart="377dp"
+        style="@style/text_base"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:background="@drawable/one_key_clean_sel"
+         />
+
+    <TextView
+        android:id="@+id/tv_unintall_app"
+        android:text="@string/uninstall_app"
+        style="@style/text_base"
+        android:textSize="24sp"
+        android:layout_alignStart="@id/app_controller"
+        android:layout_alignTop="@id/slogan"
+        />
+
+    <View
+        android:id="@+id/view_line"
+        android:layout_below="@+id/tv_unintall_app"
+        android:layout_width="wrap_content"
+        android:layout_alignStart="@id/app_controller"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="50dp"
+        android:background="@color/color_8fbeff" />
+
+    <TextView
+        android:layout_below="@+id/view_line"
+        android:layout_marginTop="20dp"
+        android:lineSpacingExtra="5dp"
+        android:layout_alignStart="@id/app_controller"
+        android:text="@string/delete_app_OK_button"
+        style="@style/text_base" />
+
+</RelativeLayout>
