@@ -39,7 +39,7 @@ public class AppControllerFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         initListener();
     }
-/*com.android.tv.settings/.device.apps.AppsActivity t244}*/
+
     private void initListener() {
         final Intent intent = new Intent();
         String pkgName = "com.android.tv.settings";

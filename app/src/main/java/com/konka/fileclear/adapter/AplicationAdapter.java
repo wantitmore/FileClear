@@ -3,7 +3,10 @@ package com.konka.fileclear.adapter;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +25,7 @@ public class AplicationAdapter extends RecyclerView.Adapter<AplicationAdapter.My
 
     private Context mContext;
     private List<PackageInfo> mApkCommons;
+    private static final String TAG ="AplicationAdapter";
 
     public AplicationAdapter(Context context, List<PackageInfo> apkCommons) {
         mContext = context;
@@ -36,11 +40,22 @@ public class AplicationAdapter extends RecyclerView.Adapter<AplicationAdapter.My
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, int position) {
         PackageManager pm = mContext.getPackageManager();
         holder.name.setText(mApkCommons.get(position).applicationInfo.loadLabel(pm).toString());
-//        Drawable drawable = mApkCommons.get(position).applicationInfo.loadIcon(pm);
-//        holder.imageView.setImageDrawable(drawable);
+        holder.itemView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    Log.d(TAG, "onFocusChange: -------------------78");
+                    holder.itemView.setBackgroundColor(Color.parseColor("#908a8a8a"));
+                    ViewCompat.animate(v).scaleX(1.17f).scaleY(1.17f).translationZ(1).start();
+
+                } else {
+                    holder.itemView.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                }
+            }
+        });
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.konka.fileclear.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,12 +43,37 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
     }
 
     @Override
-    public void onBindViewHolder(ImageAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(final ImageAdapter.MyViewHolder holder, int position) {
         String path = mImages.get(position).getPath();
         Bitmap bm = BitmapFactory.decodeFile(path);
         Bitmap bitmap = PictureLoader.decodeSampledBitmapFromResource(path, 165);
         Log.d(TAG, "onBindViewHolder: " + bitmap);
         holder.imageView.setImageBitmap(bitmap);
+        holder.itemView.setFocusable(true);
+//
+        if (position == 0) {
+            Log.d(TAG, "onBindViewHolder: ============");
+            holder.itemView.requestFocus();
+            ViewCompat.animate(holder.itemView).scaleX(1.2f).scaleY(1.2f).translationZ(1).start();
+        }
+        holder.itemView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    Log.d(TAG, "onFocusChange: -------------------78");
+                    ViewCompat.animate(v).scaleX(1.2f).scaleY(1.2f).translationZ(1).start();
+//                    v.bringToFront();
+//                    v.getParent().requestLayout();
+                } else {
+                    Log.d(TAG, "onFocusChange: -------------------77");
+                    ViewCompat.animate(v).scaleX(1f).scaleY(1f).translationZ(1).start();
+                    ViewGroup parent = (ViewGroup) v.getParent();
+                    parent.requestLayout();
+                    parent.invalidate();
+                }
+                Log.d(TAG, "onFocusChange: ---------------");
+            }
+        });
     }
 
     @Override
@@ -71,7 +97,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageView;
-        MyViewHolder(View itemView) {
+        MyViewHolder(final View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.iv_image);
         }

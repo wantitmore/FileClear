@@ -7,6 +7,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -61,5 +63,18 @@ public class AplicationActivity extends Activity {
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_audio);
         TextView title = (TextView) findViewById(R.id.tv_title);
         title.setText(getResources().getText(R.string.apk));
+        mRecyclerView.setFocusable(true);
+        final boolean b = mRecyclerView.requestFocus();
+        mRecyclerView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                Log.i("ImageActivity","hasfocus:"+hasFocus + ", " + b);
+                if(hasFocus){
+                    if(mRecyclerView.getChildCount()>0){
+                        mRecyclerView.getChildAt(0).requestFocus();
+                    }
+                }
+            }
+        });
     }
 }

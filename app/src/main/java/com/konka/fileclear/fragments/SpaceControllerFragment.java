@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 
 import com.konka.fileclear.R;
@@ -18,7 +16,7 @@ import com.konka.fileclear.activity.DeepClearActivity;
 import com.konka.fileclear.activity.ImageActivity;
 import com.konka.fileclear.activity.OthersActivity;
 import com.konka.fileclear.activity.VideoActivity;
-import com.konka.fileclear.common.MediaResourceManager;
+import com.konka.fileclear.utils.AnimUtil;
 
 import static com.konka.fileclear.R.id.ib_deep_clear;
 
@@ -68,18 +66,9 @@ public class SpaceControllerFragment extends Fragment implements View.OnFocusCha
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        focueAnim(v, hasFocus);
+        AnimUtil.focueAnim(getActivity(), v, hasFocus);
     }
 
-    private void focueAnim(View v, boolean hasFocus) {
-        if (hasFocus) {
-            Animation foucusAnim = AnimationUtils.loadAnimation(getActivity(), R.anim.focus_on);
-            v.startAnimation(foucusAnim);
-        } else {
-            Animation foucusAnim = AnimationUtils.loadAnimation(getActivity(), R.anim.focus_off);
-            v.startAnimation(foucusAnim);
-        }
-    }
 
     @Override
     public void onClick(View v) {
@@ -88,19 +77,15 @@ public class SpaceControllerFragment extends Fragment implements View.OnFocusCha
                 startActivity(new Intent(getActivity(), DeepClearActivity.class));
                 break;
             case R.id.ib_image :
-//                MediaResourceManager.getImagesFromMedia(getActivity());
                 startActivity(new Intent(getActivity(), ImageActivity.class));
                 break;
             case R.id.ib_video :
-                MediaResourceManager.getVideosFromMedia(getActivity());
                 startActivity(new Intent(getActivity(), VideoActivity.class));
                 break;
             case R.id.ib_music :
-//                MediaResourceManager.getAudiosFromMedia(getActivity());
                 startActivity(new Intent(getActivity(), AudioActivity.class));
                 break;
             case R.id.ib_apk :
-//                MediaResourceManager.getCustomApps(getActivity());
                 startActivity(new Intent(getActivity(), AplicationActivity.class));
                 break;
             case R.id.ib_others :
