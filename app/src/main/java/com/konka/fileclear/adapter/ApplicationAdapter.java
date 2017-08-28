@@ -1,6 +1,7 @@
 package com.konka.fileclear.adapter;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -31,6 +32,7 @@ public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.
     private List<PackageInfo> mApkCommons;
     private static final String TAG ="ApplicationAdapter";
     public static final int DELETE_REQUEST_CODE = 100;
+    private int uninstallPosition = 0;
 
 
     public ApplicationAdapter(Context context, List<PackageInfo> apkCommons) {
@@ -52,6 +54,18 @@ public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.
         holder.itemView.setFocusable(true);
         Log.d(TAG, "onBindViewHolder: notify test");
         setHolderView(holder, position);
+    }
+
+    public class MyInstalledReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+         if (intent.getAction().equals("android.intent.action.PACKAGE_REMOVED")) {   // uninstall
+                String packageName = intent.getDataString();
+                Log.d("homer", "卸载了 :" + packageName);
+                mApkCommons.remove(uninstallPosition);
+                notifyItemRemoved(uninstallPosition);
+            }
+        }
     }
 
     private void setHolderView(final MyViewHolder holder, final int position) {
@@ -76,7 +90,7 @@ public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.
                     File file = new File(dataDir);
                     Log.d(TAG, "onKey: ----file is " + dataDir);
                     Intent intent = new Intent(Intent.ACTION_DELETE, Uri.parse("package:" + dataDir));
-
+                    uninstallPosition = position;
                     ((Activity) mContext).startActivityForResult(intent, DELETE_REQUEST_CODE);
                 }
                 return false;

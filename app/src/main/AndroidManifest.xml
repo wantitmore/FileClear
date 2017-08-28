@@ -35,6 +35,7 @@
         <activity android:name=".activity.ApplicationActivity" />
         <activity android:name=".activity.OthersActivity" />
         <activity android:name=".activity.DeepClearActivity"></activity>
+
     </application>
 
 </manifest>
