@@ -3,10 +3,10 @@ package com.konka.fileclear.adapter;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.konka.fileclear.R;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -43,16 +44,58 @@ public class AplicationAdapter extends RecyclerView.Adapter<AplicationAdapter.My
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         PackageManager pm = mContext.getPackageManager();
         holder.name.setText(mApkCommons.get(position).applicationInfo.loadLabel(pm).toString());
+        holder.itemView.setFocusable(true);
+        setHolderView(holder, position);
+    }
+
+    private void setHolderView(final MyViewHolder holder, final int position) {
+        if (position == 0) {
+            holder.itemView.requestFocus();
+            holder.itemView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ViewCompat.animate(holder.itemView).scaleX(1.2f).scaleY(1.2f).translationZ(1).start();
+                }
+            }, 300);
+        }
+
+        holder.itemView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                Log.d(TAG, "onKey: --------keycode is " + keyCode);
+                if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT && event.getAction() == KeyEvent.ACTION_UP) {
+                    //delete this item
+                    PackageInfo info = mApkCommons.get(position);
+                    String dataDir = info.applicationInfo.dataDir;
+                    File file = new File(dataDir);
+                    Log.d(TAG, "onKey: ----file is " + dataDir);
+                    if (file.exists()) {
+                        boolean delete = file.delete();
+                        if (delete) {
+                            Log.d(TAG, "onKey: app delete success");
+                            mApkCommons.remove(position);
+                            notifyDataSetChanged();
+                        }
+                    }
+                }
+                return false;
+            }
+        });
         holder.itemView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
+                Log.d(TAG, "onFocusChange: -------------------------zack");
                 if (hasFocus) {
-                    Log.d(TAG, "onFocusChange: -------------------78");
-                    holder.itemView.setBackgroundColor(Color.parseColor("#908a8a8a"));
-                    ViewCompat.animate(v).scaleX(1.17f).scaleY(1.17f).translationZ(1).start();
-
+                    Log.d(TAG, "onFocusChange: focus is ");
+                    ViewCompat.animate(v).scaleX(1.2f).scaleY(1.2f).translationZ(1).start();
                 } else {
-                    holder.itemView.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    Log.d(TAG, "onFocusChange: ---zack unfocus");
+                    ViewCompat.animate(v).scaleX(1f).scaleY(1f).translationZ(1).start();
+                    ViewGroup parent = (ViewGroup) v.getParent();
+                    if (parent != null) {
+                        parent.requestLayout();
+                        parent.invalidate();
+                    }
                 }
             }
         });

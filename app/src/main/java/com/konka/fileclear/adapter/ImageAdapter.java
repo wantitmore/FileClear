@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +50,10 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
         Bitmap bitmap = PictureLoader.decodeSampledBitmapFromResource(path, 165);
         holder.imageView.setImageBitmap(bitmap);
         holder.itemView.setFocusable(true);
+        setHolderView(holder, position);
+    }
+
+    private void setHolderView(final MyViewHolder holder, final int position) {
         if (position == 0) {
             holder.itemView.requestFocus();
             holder.itemView.postDelayed(new Runnable() {
@@ -56,8 +61,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
                 public void run() {
                     ViewCompat.animate(holder.itemView).scaleX(1.2f).scaleY(1.2f).translationZ(1).start();
                 }
-            }, 1000);
-
+            }, 300);
         }
 
         holder.itemView.setOnKeyListener(new View.OnKeyListener() {
@@ -74,7 +78,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
                             notifyDataSetChanged();
                         }
                     }
-
                 }
                 return false;
             }
@@ -85,6 +88,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
                 if (hasFocus) {
                     ViewCompat.animate(v).scaleX(1.2f).scaleY(1.2f).translationZ(1).start();
                 } else {
+                    Log.d(TAG, "onFocusChange: image unfocus");
                     ViewCompat.animate(v).scaleX(1f).scaleY(1f).translationZ(1).start();
                     ViewGroup parent = (ViewGroup) v.getParent();
                     if (parent != null) {
@@ -93,7 +97,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
                     }
                 }
             }
-
         });
     }
 

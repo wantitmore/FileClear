@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.CLEAR_APP_USER_DATA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.FORCE_STOP_PACKAGES" />
+    <uses-permission android:name="android.permission.DELETE_PACKAGES" />
 
     <application
         android:name="org.litepal.LitePalApplication"
@@ -31,7 +32,7 @@
         <activity android:name=".activity.AudioActivity" />
         <activity android:name=".activity.ImageActivity" />
         <activity android:name=".activity.VideoActivity" />
-        <activity android:name=".activity.AplicationActivity" />
+        <activity android:name=".activity.ApplicationActivity" />
         <activity android:name=".activity.OthersActivity" />
         <activity android:name=".activity.DeepClearActivity"></activity>
     </application>

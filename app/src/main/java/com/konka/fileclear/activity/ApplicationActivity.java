@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
-import android.util.Log;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -15,11 +13,12 @@ import android.widget.TextView;
 import com.konka.fileclear.R;
 import com.konka.fileclear.adapter.AplicationAdapter;
 import com.konka.fileclear.common.MediaResourceManager;
+import com.konka.fileclear.utils.FocusUtil;
 import com.konka.fileclear.view.ScaleRecyclerView;
 
 import java.util.List;
 
-public class AplicationActivity extends Activity {
+public class ApplicationActivity extends Activity {
 
     private ScaleRecyclerView  mRecyclerView;
     private List<PackageInfo> customApps;
@@ -30,9 +29,10 @@ public class AplicationActivity extends Activity {
             super.handleMessage(msg);
             switch (msg.what) {
                 case 0:
-                    mRecyclerView.setLayoutManager(new GridLayoutManager(AplicationActivity.this, 5));
-                    AplicationAdapter aplicationAdapter = new AplicationAdapter(AplicationActivity.this, customApps);
+                    mRecyclerView.setLayoutManager(new GridLayoutManager(ApplicationActivity.this, 5));
+                    AplicationAdapter aplicationAdapter = new AplicationAdapter(ApplicationActivity.this, customApps);
                     mRecyclerView.setAdapter(aplicationAdapter);
+                    mRecyclerView.setFocusable(true);
                     break;
             }
         }
@@ -49,7 +49,7 @@ public class AplicationActivity extends Activity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                customApps = MediaResourceManager.getCustomApps(AplicationActivity.this);
+                customApps = MediaResourceManager.getCustomApps(ApplicationActivity.this);
                 handler.sendEmptyMessage(0);
             }
         }).start();
@@ -63,18 +63,7 @@ public class AplicationActivity extends Activity {
         mRecyclerView = (ScaleRecyclerView) findViewById(R.id.recycler_audio);
         TextView title = (TextView) findViewById(R.id.tv_title);
         title.setText(getResources().getText(R.string.apk));
-        mRecyclerView.setFocusable(true);
-        final boolean b = mRecyclerView.requestFocus();
-        mRecyclerView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                Log.i("ImageActivity","hasfocus:"+hasFocus + ", " + b);
-                if(hasFocus){
-                    if(mRecyclerView.getChildCount()>0){
-                        mRecyclerView.getChildAt(0).requestFocus();
-                    }
-                }
-            }
-        });
+        FocusUtil.focusListener(mRecyclerView);
     }
+
 }

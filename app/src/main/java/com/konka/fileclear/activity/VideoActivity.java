@@ -13,6 +13,7 @@ import com.konka.fileclear.R;
 import com.konka.fileclear.adapter.VideoAdapter;
 import com.konka.fileclear.common.MediaResourceManager;
 import com.konka.fileclear.entity.Video;
+import com.konka.fileclear.utils.FocusUtil;
 import com.konka.fileclear.view.ScaleRecyclerView;
 
 import java.util.ArrayList;
@@ -62,12 +63,14 @@ public class VideoActivity extends Activity {
         }).start();
     }
 
+
     private void initView() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_video);
         mRecyclerView = (ScaleRecyclerView ) findViewById(R.id.recycler_video);
+        FocusUtil.focusListener(mRecyclerView);
         mTitle = (TextView) findViewById(R.id.tv_title);
         mTitle.setText(getResources().getText(R.string.video));
     }

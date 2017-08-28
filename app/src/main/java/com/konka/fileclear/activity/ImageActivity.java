@@ -7,7 +7,6 @@ import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -16,6 +15,7 @@ import com.konka.fileclear.R;
 import com.konka.fileclear.adapter.ImageAdapter;
 import com.konka.fileclear.common.MediaResourceManager;
 import com.konka.fileclear.entity.Image;
+import com.konka.fileclear.utils.FocusUtil;
 import com.konka.fileclear.view.ScaleRecyclerView;
 
 import java.util.List;
@@ -32,10 +32,7 @@ public class ImageActivity extends Activity {
                 case 0:
                     mRecyclerView.setLayoutManager(new GridLayoutManager(ImageActivity.this, 5));
                     ImageAdapter imageAdapter = new ImageAdapter(ImageActivity.this, images);
-//                    mRecyclerView.setChildDrawingOrderCallback(imageAdapter);
                     mRecyclerView.setAdapter(imageAdapter);
-                    mRecyclerView.setFocusable(true);
-                    initListener();
                     break;
             }
         }
@@ -49,20 +46,6 @@ public class ImageActivity extends Activity {
         initView();
         initThread();
     }
-
-    private void initListener() {
-        /*mRecyclerView.post(new Runnable() {
-            @Override
-            public void run() {
-                Log.d(TAG, "run: ==============");
-                int childCount = mRecyclerView.getChildCount();
-                Log.d(TAG, "onFocusChange: " + childCount);
-                mRecyclerView.setFocusable(true);
-                mRecyclerView.requestFocus();
-            }
-        });*/
-    }
-
 
     @Override
     protected void onDestroy() {
@@ -100,17 +83,7 @@ public class ImageActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_image);
         mRecyclerView = (ScaleRecyclerView) findViewById(R.id.recycler_image);
-        mRecyclerView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus){
-                    if(mRecyclerView.getChildCount() >0){
-                        mRecyclerView.getChildAt(0).requestFocus();
-
-                    }
-                }
-            }
-        });
+        FocusUtil.focusListener(mRecyclerView);
         TextView title = (TextView) findViewById(R.id.tv_title);
         title.setText(R.string.image);
     }

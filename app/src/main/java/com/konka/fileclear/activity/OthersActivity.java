@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.konka.fileclear.R;
 import com.konka.fileclear.adapter.OtherAdapter;
 import com.konka.fileclear.entity.Others;
+import com.konka.fileclear.utils.FocusUtil;
 import com.konka.fileclear.utils.SearchUtil;
 import com.konka.fileclear.view.ScaleRecyclerView;
 
@@ -75,6 +76,7 @@ public class OthersActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_audio);
         mRecyclerView = (ScaleRecyclerView ) findViewById(R.id.recycler_audio);
+        FocusUtil.focusListener(mRecyclerView);
         TextView title = (TextView) findViewById(R.id.tv_title);
         title.setText(getResources().getText(R.string.others));
     }

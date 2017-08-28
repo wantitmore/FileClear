@@ -16,6 +16,7 @@ import com.konka.fileclear.R;
 import com.konka.fileclear.adapter.AudioAdapter;
 import com.konka.fileclear.common.MediaResourceManager;
 import com.konka.fileclear.entity.Audio;
+import com.konka.fileclear.utils.FocusUtil;
 import com.konka.fileclear.view.ScaleRecyclerView;
 
 import java.lang.ref.WeakReference;
@@ -53,7 +54,7 @@ public class AudioActivity extends Activity {
         mRecyclerView = (ScaleRecyclerView ) findViewById(R.id.recycler_audio);
         mTitle = (TextView) findViewById(R.id.tv_title);
         mTitle.setText(getResources().getText(R.string.music));
-
+        FocusUtil.focusListener(mRecyclerView);
     }
 
     private void initThread() {
