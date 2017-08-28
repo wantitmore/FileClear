@@ -2,10 +2,10 @@ package com.konka.fileclear.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +16,14 @@ import com.konka.fileclear.R;
 import com.konka.fileclear.common.PictureLoader;
 import com.konka.fileclear.entity.Image;
 
+import java.io.File;
 import java.util.List;
 
 /**
  * Created by user001 on 2017-8-23.
  */
 
-public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder> implements AbsListView.OnScrollListener {
+public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder> implements AbsListView.OnScrollListener{
 
     private static final String TAG = "ImageAdapter";
     private Context mContext;
@@ -35,6 +36,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
         mImages = images;
     }
 
+
     @Override
     public ImageAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new MyViewHolder(LayoutInflater.from(
@@ -43,42 +45,57 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
     }
 
     @Override
-    public void onBindViewHolder(final ImageAdapter.MyViewHolder holder, int position) {
-        String path = mImages.get(position).getPath();
-        Bitmap bm = BitmapFactory.decodeFile(path);
+    public void onBindViewHolder(final ImageAdapter.MyViewHolder holder, final int position) {
+        final String path = mImages.get(position).getPath();
         Bitmap bitmap = PictureLoader.decodeSampledBitmapFromResource(path, 165);
-        Log.d(TAG, "onBindViewHolder: " + bitmap);
         holder.imageView.setImageBitmap(bitmap);
         holder.itemView.setFocusable(true);
-//
         if (position == 0) {
-            Log.d(TAG, "onBindViewHolder: ============");
             holder.itemView.requestFocus();
-            ViewCompat.animate(holder.itemView).scaleX(1.2f).scaleY(1.2f).translationZ(1).start();
         }
+
+        holder.itemView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
+                    Log.d(TAG, "onKey: ------enter");
+                    //delete this item
+                    Image image = mImages.get(position);
+                    File file = new File(image.getPath());
+                    if (file.exists()) {
+                        Log.d(TAG, "onKey: file exit, path is " + path);
+                        boolean delete = file.delete();
+                        if (delete) {
+                            Log.d(TAG, "onKey: ----------delete success");
+                            mImages.remove(position);
+                            notifyDataSetChanged();
+                        }
+                    }
+
+                }
+                return false;
+            }
+        });
         holder.itemView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    Log.d(TAG, "onFocusChange: -------------------78");
                     ViewCompat.animate(v).scaleX(1.2f).scaleY(1.2f).translationZ(1).start();
-//                    v.bringToFront();
-//                    v.getParent().requestLayout();
                 } else {
-                    Log.d(TAG, "onFocusChange: -------------------77");
                     ViewCompat.animate(v).scaleX(1f).scaleY(1f).translationZ(1).start();
                     ViewGroup parent = (ViewGroup) v.getParent();
-                    parent.requestLayout();
-                    parent.invalidate();
+                    if (parent != null) {
+                        parent.requestLayout();
+                        parent.invalidate();
+                    }
                 }
-                Log.d(TAG, "onFocusChange: ---------------");
             }
+
         });
     }
 
     @Override
     public int getItemCount() {
-        Log.d(TAG, "getItemCount: " + mImages.size());
         return mImages == null ? 0 : mImages.size();
     }
 
@@ -97,6 +114,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageView;
+
         MyViewHolder(final View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.iv_image);

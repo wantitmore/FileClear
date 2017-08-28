@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -72,6 +73,15 @@ public class ImageActivity extends Activity {
     private void initThread() {
         ImageLoadThread imageLoadThread = new ImageLoadThread();
         imageLoadThread.start();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_ENTER) {
+            Log.d(TAG, "onKeyDown: ENTER");
+
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     private class ImageLoadThread extends Thread {
