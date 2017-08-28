@@ -1,17 +1,19 @@
 package com.konka.fileclear.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.konka.fileclear.R;
-import com.konka.fileclear.adapter.AplicationAdapter;
+import com.konka.fileclear.adapter.ApplicationAdapter;
 import com.konka.fileclear.common.MediaResourceManager;
 import com.konka.fileclear.utils.FocusUtil;
 import com.konka.fileclear.view.ScaleRecyclerView;
@@ -21,7 +23,8 @@ import java.util.List;
 public class ApplicationActivity extends Activity {
 
     private ScaleRecyclerView  mRecyclerView;
-    private List<PackageInfo> customApps;
+    private List<PackageInfo> mCustomApps;
+    private static final String TAG = "ApplicationActivity";
 
     private Handler handler = new Handler() {
         @Override
@@ -30,13 +33,14 @@ public class ApplicationActivity extends Activity {
             switch (msg.what) {
                 case 0:
                     mRecyclerView.setLayoutManager(new GridLayoutManager(ApplicationActivity.this, 5));
-                    AplicationAdapter aplicationAdapter = new AplicationAdapter(ApplicationActivity.this, customApps);
-                    mRecyclerView.setAdapter(aplicationAdapter);
+                    applicationAdapter = new ApplicationAdapter(ApplicationActivity.this, mCustomApps);
+                    mRecyclerView.setAdapter(applicationAdapter);
                     mRecyclerView.setFocusable(true);
                     break;
             }
         }
     };
+    private ApplicationAdapter applicationAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +49,34 @@ public class ApplicationActivity extends Activity {
         initThread();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ApplicationAdapter.DELETE_REQUEST_CODE) {
+//            Log.d(TAG, "onActivityResult: delete success ,position is " + position);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Log.d(TAG, "run: size2 " + mCustomApps.size());
+                    mCustomApps = MediaResourceManager.getCustomApps(ApplicationActivity.this);
+                    Log.d(TAG, "run: size1 " + mCustomApps.size());
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            applicationAdapter = new ApplicationAdapter(ApplicationActivity.this, mCustomApps);
+                            mRecyclerView.setAdapter(applicationAdapter);
+                        }
+                    });
+                }
+            }).start();
+        }
+    }
+
     private void initThread() {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                customApps = MediaResourceManager.getCustomApps(ApplicationActivity.this);
+                mCustomApps = MediaResourceManager.getCustomApps(ApplicationActivity.this);
                 handler.sendEmptyMessage(0);
             }
         }).start();

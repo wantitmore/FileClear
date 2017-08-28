@@ -112,16 +112,6 @@ public class MainActivity extends Activity implements View.OnFocusChangeListener
         Log.d(TAG, "onAttachedToWindow: " + measuredHeight);
     }
 
-/*    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (mOneKeyClearFragment.isVisible() && keyCode == KeyEvent.KEYCODE_DPAD_UP) {
-            mClearGroup.check(R.id.rb_one_key_clear);
-            mOneKeyClear.setNextFocusDownId(R.id.rg_main);
-            return false;
-        }
-        return super.onKeyDown(keyCode, event);
-    }*/
-
     @Override
     protected void onDestroy() {
         super.onDestroy();

@@ -1,11 +1,15 @@
 package com.konka.fileclear.utils;
 
+import android.os.Environment;
 import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.RandomAccessFile;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
@@ -97,5 +101,28 @@ public class FileUtils {
         }
         return fileList;
     }
+
+    public static void writeFileSdcard(String strcontent) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日   HH:mm:ss");
+        Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
+        String str = formatter.format(curDate);
+        String strContent = "-------当前时间===" + str + "\r\n" + strcontent + "\r\n";
+        try {
+            String strFilePath = Environment.getExternalStorageDirectory() + "/lunxun.text";
+
+            File file = new File(strFilePath);
+            if (!file.exists()) {
+                Log.d("TestFile", "Create the file:" + strFilePath);
+                file.createNewFile();
+            }
+            RandomAccessFile raf = new RandomAccessFile(file, "rw");
+            raf.seek(file.length());
+            raf.write(strContent.getBytes());
+            raf.close();
+        } catch (Exception e) {
+            Log.e("TestFile", "Error on write File.");
+        }
+    }
+
 
 }

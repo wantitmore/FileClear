@@ -1,8 +1,11 @@
 package com.konka.fileclear.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -22,13 +25,15 @@ import java.util.List;
  * Created by user001 on 2017-8-24.
  */
 
-public class AplicationAdapter extends RecyclerView.Adapter<AplicationAdapter.MyViewHolder> {
+public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.MyViewHolder> {
 
     private Context mContext;
     private List<PackageInfo> mApkCommons;
-    private static final String TAG ="AplicationAdapter";
+    private static final String TAG ="ApplicationAdapter";
+    public static final int DELETE_REQUEST_CODE = 100;
 
-    public AplicationAdapter(Context context, List<PackageInfo> apkCommons) {
+
+    public ApplicationAdapter(Context context, List<PackageInfo> apkCommons) {
         mContext = context;
         mApkCommons = apkCommons;
     }
@@ -45,6 +50,7 @@ public class AplicationAdapter extends RecyclerView.Adapter<AplicationAdapter.My
         PackageManager pm = mContext.getPackageManager();
         holder.name.setText(mApkCommons.get(position).applicationInfo.loadLabel(pm).toString());
         holder.itemView.setFocusable(true);
+        Log.d(TAG, "onBindViewHolder: notify test");
         setHolderView(holder, position);
     }
 
@@ -63,20 +69,15 @@ public class AplicationAdapter extends RecyclerView.Adapter<AplicationAdapter.My
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 Log.d(TAG, "onKey: --------keycode is " + keyCode);
-                if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT && event.getAction() == KeyEvent.ACTION_UP) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
                     //delete this item
                     PackageInfo info = mApkCommons.get(position);
-                    String dataDir = info.applicationInfo.dataDir;
+                    String dataDir = info.applicationInfo.packageName;
                     File file = new File(dataDir);
                     Log.d(TAG, "onKey: ----file is " + dataDir);
-                    if (file.exists()) {
-                        boolean delete = file.delete();
-                        if (delete) {
-                            Log.d(TAG, "onKey: app delete success");
-                            mApkCommons.remove(position);
-                            notifyDataSetChanged();
-                        }
-                    }
+                    Intent intent = new Intent(Intent.ACTION_DELETE, Uri.parse("package:" + dataDir));
+
+                    ((Activity) mContext).startActivityForResult(intent, DELETE_REQUEST_CODE);
                 }
                 return false;
             }
