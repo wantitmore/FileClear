@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -16,12 +15,13 @@ import android.widget.TextView;
 import com.konka.fileclear.R;
 import com.konka.fileclear.adapter.AplicationAdapter;
 import com.konka.fileclear.common.MediaResourceManager;
+import com.konka.fileclear.view.ScaleRecyclerView;
 
 import java.util.List;
 
 public class AplicationActivity extends Activity {
 
-    private RecyclerView mRecyclerView;
+    private ScaleRecyclerView  mRecyclerView;
     private List<PackageInfo> customApps;
 
     private Handler handler = new Handler() {
@@ -60,7 +60,7 @@ public class AplicationActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_audio);
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_audio);
+        mRecyclerView = (ScaleRecyclerView) findViewById(R.id.recycler_audio);
         TextView title = (TextView) findViewById(R.id.tv_title);
         title.setText(getResources().getText(R.string.apk));
         mRecyclerView.setFocusable(true);

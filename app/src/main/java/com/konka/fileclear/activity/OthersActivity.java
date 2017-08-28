@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -14,6 +13,7 @@ import com.konka.fileclear.R;
 import com.konka.fileclear.adapter.OtherAdapter;
 import com.konka.fileclear.entity.Others;
 import com.konka.fileclear.utils.SearchUtil;
+import com.konka.fileclear.view.ScaleRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ import java.util.List;
 public class OthersActivity extends Activity {
 
     private List<Others> mOtherses;
-    private RecyclerView mRecyclerView;
+    private ScaleRecyclerView  mRecyclerView;
     String[] others = new String[]{".zip", ".rar", ".tar", ".gz", "tgz", "txt", ".doc", ".docx",
             ".xls", ".xlsx", ".ppt", "pptx", ".xml", ".html", ".htm"};
 
@@ -74,7 +74,7 @@ public class OthersActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_audio);
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_audio);
+        mRecyclerView = (ScaleRecyclerView ) findViewById(R.id.recycler_audio);
         TextView title = (TextView) findViewById(R.id.tv_title);
         title.setText(getResources().getText(R.string.others));
     }

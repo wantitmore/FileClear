@@ -10,7 +10,7 @@
     <!--title start-->
     <include layout="@layout/title_delete"/>
     <!--title end-->
-    <android.support.v7.widget.RecyclerView
+    <com.konka.fileclear.view.ScaleRecyclerView
         android:id="@+id/recycler_audio"
         style="@style/recyclerview_style"/>
 

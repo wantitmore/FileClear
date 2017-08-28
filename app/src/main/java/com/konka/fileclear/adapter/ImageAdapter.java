@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,21 +51,25 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
         holder.itemView.setFocusable(true);
         if (position == 0) {
             holder.itemView.requestFocus();
+            holder.itemView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ViewCompat.animate(holder.itemView).scaleX(1.2f).scaleY(1.2f).translationZ(1).start();
+                }
+            }, 1000);
+
         }
 
         holder.itemView.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
-                    Log.d(TAG, "onKey: ------enter");
                     //delete this item
                     Image image = mImages.get(position);
                     File file = new File(image.getPath());
                     if (file.exists()) {
-                        Log.d(TAG, "onKey: file exit, path is " + path);
                         boolean delete = file.delete();
                         if (delete) {
-                            Log.d(TAG, "onKey: ----------delete success");
                             mImages.remove(position);
                             notifyDataSetChanged();
                         }

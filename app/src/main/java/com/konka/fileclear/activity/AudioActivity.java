@@ -7,7 +7,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
@@ -17,6 +16,7 @@ import com.konka.fileclear.R;
 import com.konka.fileclear.adapter.AudioAdapter;
 import com.konka.fileclear.common.MediaResourceManager;
 import com.konka.fileclear.entity.Audio;
+import com.konka.fileclear.view.ScaleRecyclerView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class AudioActivity extends Activity {
     private static final String TAG = "AudioActivity";
     private static List<Audio> audios;
     private AudioHandler handler = new AudioHandler(this);
-    private RecyclerView mRecyclerView;
+    private ScaleRecyclerView  mRecyclerView;
     private TextView mTitle;
 
     @Override
@@ -50,7 +50,7 @@ public class AudioActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_audio);
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_audio);
+        mRecyclerView = (ScaleRecyclerView ) findViewById(R.id.recycler_audio);
         mTitle = (TextView) findViewById(R.id.tv_title);
         mTitle.setText(getResources().getText(R.string.music));
 

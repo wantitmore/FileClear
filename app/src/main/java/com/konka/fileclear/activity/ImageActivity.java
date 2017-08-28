@@ -51,7 +51,7 @@ public class ImageActivity extends Activity {
     }
 
     private void initListener() {
-        mRecyclerView.post(new Runnable() {
+        /*mRecyclerView.post(new Runnable() {
             @Override
             public void run() {
                 Log.d(TAG, "run: ==============");
@@ -60,7 +60,7 @@ public class ImageActivity extends Activity {
                 mRecyclerView.setFocusable(true);
                 mRecyclerView.requestFocus();
             }
-        });
+        });*/
     }
 
 
@@ -103,10 +103,8 @@ public class ImageActivity extends Activity {
         mRecyclerView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                Log.i("ImageActivity","hasfocus:"+hasFocus + ",");
                 if(hasFocus){
                     if(mRecyclerView.getChildCount() >0){
-                        Log.d("ImageActivity", "onFocusChange:-------- ");
                         mRecyclerView.getChildAt(0).requestFocus();
 
                     }
