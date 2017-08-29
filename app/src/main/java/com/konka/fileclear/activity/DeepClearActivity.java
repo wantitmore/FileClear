@@ -24,7 +24,7 @@ import java.util.List;
 
 public class DeepClearActivity extends Activity {
 
-    private static final String TAG ="DeepClearActivity";
+    private static final String TAG = "DeepClearActivity";
     private ImageView mSearchAnim;
     private TextView mTitle, mDeleteHint;
     private RecyclerView mRecyclerView;
@@ -56,6 +56,7 @@ public class DeepClearActivity extends Activity {
         Log.d(TAG, "onCreate: ");
         initView();
         startDeepSearch();
+//        new Thread(run2).start();
     }
 
     @Override
