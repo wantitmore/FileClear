@@ -71,30 +71,6 @@ public class ApplicationActivity extends Activity {
         handler.removeCallbacksAndMessages(null);
     }
 
-/*    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ApplicationAdapter.DELETE_REQUEST_CODE) {
-//            Log.d(TAG, "onActivityResult: delete success ,position is " + position);
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    Log.d(TAG, "run: size2 " + mCustomApps.size());
-                    mCustomApps = MediaResourceManager.getCustomApps(ApplicationActivity.this);
-                    Log.d(TAG, "run: size1 " + mCustomApps.size());
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-//                            applicationAdapter = new ApplicationAdapter(ApplicationActivity.this, mCustomApps);
-//                            mRecyclerView.setAdapter(applicationAdapter);
-
-                        }
-                    });
-                }
-            }).start();
-        }
-    }*/
-
     private void initThread() {
         new Thread(new Runnable() {
             @Override
@@ -131,10 +107,9 @@ public class ApplicationActivity extends Activity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.d("MyInstalledReceiver", "onReceive: ---" + intent.getAction());
-            if (intent.getAction().equals(/*"android.intent.action.PACKAGE_REMOVED"*/Intent.ACTION_PACKAGE_REMOVED)) {   // uninstall
+            if (intent.getAction().equals(Intent.ACTION_PACKAGE_REMOVED)) {   // uninstall
                 String packageName = intent.getDataString();
-                Log.d("homer", "卸载了 :" + packageName + ", uninstallPosition is " + uninstallPosition);
+                Log.d("MyInstalledReceiver", "卸载了 :" + packageName + ", uninstallPosition is " + uninstallPosition);
                 mCustomApps.remove(uninstallPosition);
                 applicationAdapter.notifyItemRemoved(uninstallPosition);
                 applicationAdapter.notifyDataSetChanged();
@@ -168,7 +143,6 @@ public class ApplicationActivity extends Activity {
             PackageManager pm = mContext.getPackageManager();
             holder.name.setText(mApkCommons.get(position).applicationInfo.loadLabel(pm).toString());
             holder.itemView.setFocusable(true);
-            Log.d(TAG, "onBindViewHolder: notify test");
             setHolderView(holder, position);
         }
 
@@ -183,23 +157,15 @@ public class ApplicationActivity extends Activity {
                     }
                 }, 300);
             }
-            Log.d(TAG, "setHolderView: uninstallPosition is " + uninstallPosition);
             holder.itemView.setOnKeyListener(new View.OnKeyListener() {
                 @Override
                 public boolean onKey(View v, int keyCode, KeyEvent event) {
-                    Log.d(TAG, "onKey: --------keycode is " + keyCode);
                     if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
                         //delete this item
                         PackageInfo info = mApkCommons.get(position);
                         String dataDir = info.applicationInfo.packageName;
                         File file = new File(dataDir);
-                        Log.d(TAG, "onKey: ----file is " + dataDir);
                         Intent intent = new Intent(Intent.ACTION_DELETE, Uri.parse("package:" + dataDir));
-                        /*if (position == mApkCommons.size() - 1) {
-                            uninstallPosition = position;
-                        } else {
-                            uninstallPosition = position;
-                        }*/
                         uninstallPosition = position;
                         ((Activity) mContext).startActivityForResult(intent, DELETE_REQUEST_CODE);
                     }
@@ -209,12 +175,9 @@ public class ApplicationActivity extends Activity {
             holder.itemView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
-                    Log.d(TAG, "onFocusChange: -------------------------zack");
                     if (hasFocus) {
-                        Log.d(TAG, "onFocusChange: focus is ");
                         ViewCompat.animate(v).scaleX(1.2f).scaleY(1.2f).translationZ(1).start();
                     } else {
-                        Log.d(TAG, "onFocusChange: ---zack unfocus");
                         ViewCompat.animate(v).scaleX(1f).scaleY(1f).translationZ(1).start();
                         ViewGroup parent = (ViewGroup) v.getParent();
                         if (parent != null) {

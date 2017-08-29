@@ -26,6 +26,7 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.MyViewHolder
 
     private Context mContext;
     private List<Audio> mAudios;
+    private int deletePosition = 0;
 
     public AudioAdapter(Context context, List<Audio>audios) {
         mContext = context;
@@ -41,14 +42,14 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(AudioAdapter.MyViewHolder holder, int position) {
-        Log.d("3345", "onBindViewHolder: " + mAudios.get(position).getName());
+        Log.d("AudioAdapter", "onBindViewHolder: " + mAudios.get(position).getName());
         holder.name.setText(mAudios.get(position).getName());
         holder.itemView.setFocusable(true);
         setHolderView(holder, position);
     }
 
     private void setHolderView(final MyViewHolder holder, final int position) {
-        if (position == 0) {
+        if (position == ((deletePosition - 1) < 0 ? 0 : (deletePosition - 1))) {
             holder.itemView.requestFocus();
             holder.itemView.postDelayed(new Runnable() {
                 @Override
@@ -63,12 +64,13 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.MyViewHolder
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
                     //delete this item
-                    Audio image = mAudios.get(position);
-                    File file = new File(image.getPath());
+                    Audio audio = mAudios.get(position);
+                    File file = new File(audio.getPath());
                     if (file.exists()) {
                         boolean delete = file.delete();
                         if (delete) {
                             mAudios.remove(position);
+                            deletePosition = position;
                             notifyDataSetChanged();
                         }
                     }

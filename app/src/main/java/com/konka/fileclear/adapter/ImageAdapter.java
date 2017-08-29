@@ -29,6 +29,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
     private Context mContext;
     private List<Image> mImages;
     private LoadImageThread mThread;
+    private int deletePosition = 0;
     private PictureLoader mImageLoader = PictureLoader.getInstance();
 
     public ImageAdapter(Context context, List<Image> images) {
@@ -54,7 +55,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
     }
 
     private void setHolderView(final MyViewHolder holder, final int position) {
-        if (position == 0) {
+        if (position == ((deletePosition - 1) < 0 ? 0 : (deletePosition - 1))) {
             holder.itemView.requestFocus();
             holder.itemView.postDelayed(new Runnable() {
                 @Override
@@ -75,6 +76,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
                         boolean delete = file.delete();
                         if (delete) {
                             mImages.remove(position);
+                            deletePosition = position;
                             notifyDataSetChanged();
                         }
                     }

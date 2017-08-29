@@ -26,6 +26,7 @@ public class OtherAdapter extends RecyclerView.Adapter<OtherAdapter.MyViewHolder
     private static final String TAG = "OtherAdapter";
     private Context mContext;
     private List<Others> mOtherses;
+    private int deletePosition = 0;
 
     public OtherAdapter(Context context, List<Others> otherses) {
         mContext = context;
@@ -44,21 +45,20 @@ public class OtherAdapter extends RecyclerView.Adapter<OtherAdapter.MyViewHolder
         String path = mOtherses.get(position).getPath();
         int lastIndex = path.lastIndexOf("/");
         String name = path.substring(lastIndex + 1);
-        Log.d(TAG, "onBindViewHolder: " + name);
         holder.name.setText(name);
         holder.itemView.setFocusable(true);
         setHolderView(holder, position);
     }
 
     private void setHolderView(final MyViewHolder holder, final int position) {
-        if (position == 0) {
+        if (position == ((deletePosition - 1) < 0 ? 0 : (deletePosition - 1))) {
             holder.itemView.requestFocus();
             holder.itemView.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     ViewCompat.animate(holder.itemView).scaleX(1.2f).scaleY(1.2f).translationZ(1).start();
                 }
-            }, 1000);
+            }, 300);
         }
 
         holder.itemView.setOnKeyListener(new View.OnKeyListener() {
@@ -72,6 +72,7 @@ public class OtherAdapter extends RecyclerView.Adapter<OtherAdapter.MyViewHolder
                         boolean delete = file.delete();
                         if (delete) {
                             mOtherses.remove(position);
+                            deletePosition = position;
                             notifyDataSetChanged();
                         }
                     }

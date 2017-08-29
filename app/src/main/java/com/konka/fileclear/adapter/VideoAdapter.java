@@ -29,6 +29,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
     private static final String TAG = "VideoAdapter";
     private Context mContext;
     private List<Video> mVideos;
+    private int deletePosition = 0;
 
     public VideoAdapter(Context context, List<Video> videos) {
         mContext = context;
@@ -46,7 +47,6 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
         String path = video.getPath();
         String name = video.getName();
         Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(path, MediaStore.Video.Thumbnails.MINI_KIND);
-//        Bitmap thumbnail = getVideoThumbnail(path);
         holder.name.setText(name);
         holder.thumbnail.setImageBitmap(thumbnail);
         holder.itemView.setFocusable(true);
@@ -54,14 +54,14 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
     }
 
     private void setHolderView(final MyViewHolder holder, final int position) {
-        if (position == 0) {
+        if (position == ((deletePosition - 1) < 0 ? 0 : (deletePosition - 1))) {
             holder.itemView.requestFocus();
             holder.itemView.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     ViewCompat.animate(holder.itemView).scaleX(1.2f).scaleY(1.2f).translationZ(1).start();
                 }
-            }, 1000);
+            }, 300);
         }
 
         holder.itemView.setOnKeyListener(new View.OnKeyListener() {
@@ -75,6 +75,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
                         boolean delete = file.delete();
                         if (delete) {
                             mVideos.remove(position);
+                            deletePosition = position;
                             notifyDataSetChanged();
                         }
                     }
