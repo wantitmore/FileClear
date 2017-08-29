@@ -24,7 +24,7 @@ public class OthersActivity extends Activity {
     private List<Others> mOtherses;
     private ScaleRecyclerView  mRecyclerView;
     String[] others = new String[]{".zip", ".rar", ".tar", ".gz", "tgz", "txt", ".doc", ".docx",
-            ".xls", ".xlsx", ".ppt", "pptx", ".xml", ".html", ".htm"};
+            ".xls", ".xlsx", ".ppt", "pptx", ".xml", ".html", ".htm", ".apk"};
 
     private Handler handler = new Handler() {
         @Override

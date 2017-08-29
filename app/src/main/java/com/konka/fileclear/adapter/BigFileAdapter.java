@@ -75,9 +75,9 @@ public class BigFileAdapter extends RecyclerView.Adapter<BigFileAdapter.MyViewHo
         return mBigFiles == null ? 0 : mBigFiles.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView name, size;
-        public MyViewHolder(View itemView) {
+        private MyViewHolder(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.tv_name);
             size = (TextView) itemView.findViewById(R.id.tv_size);
