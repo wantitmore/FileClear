@@ -12,6 +12,7 @@ import com.konka.fileclear.entity.BigFile;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by user001 on 2017-8-15.
@@ -106,6 +107,7 @@ public class SearchUtil {
                                 bigFile.setSize(size);
                                 bigFile.setRealSize(fileSize);
                                 bigFileList.add(bigFile);
+                                Collections.sort(bigFileList);
                                 Log.d(TAG, "getallFiles: " + file2.getAbsolutePath() + ", size is " + size);
                             } else {
 
