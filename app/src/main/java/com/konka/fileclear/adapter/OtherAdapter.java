@@ -111,8 +111,9 @@ public class OtherAdapter extends RecyclerView.Adapter<OtherAdapter.MyViewHolder
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.iv_audio);
             smallIcon = (ImageView) itemView.findViewById(R.id.iv_small_icon);
-            smallIcon.setVisibility(View.GONE);
             name = (TextView) itemView.findViewById(R.id.audio_name);
+            smallIcon.setImageResource(R.drawable.others1);
+            imageView.setImageResource(R.drawable.others_icon);
         }
     }
 }

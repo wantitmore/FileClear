@@ -16,7 +16,6 @@ import com.konka.fileclear.activity.DeepClearActivity;
 import com.konka.fileclear.activity.ImageActivity;
 import com.konka.fileclear.activity.OthersActivity;
 import com.konka.fileclear.activity.VideoActivity;
-import com.konka.fileclear.utils.AnimUtil;
 
 import static com.konka.fileclear.R.id.ib_deep_clear;
 
@@ -66,7 +65,7 @@ public class SpaceControllerFragment extends Fragment implements View.OnFocusCha
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        AnimUtil.focueAnim(getActivity(), v, hasFocus);
+//        AnimUtil.focueAnim(getActivity(), v, hasFocus);
     }
 
 

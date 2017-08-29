@@ -11,16 +11,16 @@
     <ImageButton
         android:id="@+id/ib_deep_clear"
         android:layout_marginTop="40dp"
-        android:layout_marginStart="68dp"
+        android:layout_marginStart="62dp"
         android:src="@drawable/depth_clean"
-        android:background="@null"
+        android:background="@drawable/border_bg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <LinearLayout
         android:layout_marginTop="34dp"
-        android:layout_marginStart="68dp"
+        android:layout_marginStart="62dp"
         android:orientation="horizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
         <ImageButton
             android:id="@+id/ib_image"

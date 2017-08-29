@@ -13,7 +13,7 @@ public class FocusUtil {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus){
-                    if(view.getChildCount() >0){
+                    if(view.getChildCount() > 0){
                         view.getChildAt(0).requestFocus();
 
                     }

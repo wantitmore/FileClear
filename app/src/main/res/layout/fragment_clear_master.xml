@@ -144,7 +144,7 @@
 
             <TextView
                 style="@style/home_right_side_text"
-                android:text="@string/cleanup_last_size" />
+                android:text="@string/cleanup_total_size" />
 
             <TextView
                 android:id="@+id/tv_clean_total_size"

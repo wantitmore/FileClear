@@ -23,6 +23,7 @@ public class BigFileAdapter extends RecyclerView.Adapter<BigFileAdapter.MyViewHo
     private Context mContext;
     private List<BigFile>mBigFiles;
     private static final String TAG = "BigFileAdapter";
+    private int deletePosition = 0;
 
     public BigFileAdapter(Context context, List<BigFile> bigFiles) {
         mContext = context;
@@ -46,7 +47,7 @@ public class BigFileAdapter extends RecyclerView.Adapter<BigFileAdapter.MyViewHo
     }
 
     private void setHolderView(final MyViewHolder holder, final int position) {
-        if (position == 0) {
+        if (position == ((deletePosition - 1) < 0 ? 0 : (deletePosition - 1))) {
             holder.itemView.requestFocus();
         }
 
@@ -61,6 +62,7 @@ public class BigFileAdapter extends RecyclerView.Adapter<BigFileAdapter.MyViewHo
                         boolean delete = file.delete();
                         if (delete) {
                             mBigFiles.remove(position);
+                            deletePosition = position;
                             notifyDataSetChanged();
                         }
                     }
