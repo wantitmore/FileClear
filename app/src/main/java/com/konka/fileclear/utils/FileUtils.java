@@ -21,20 +21,20 @@ import static android.content.ContentValues.TAG;
 public class FileUtils {
 
     private static String[] clearType = { ".apk", ".log", ".tmp", ".temp", ".bak" };
-    private static String SDCARD_ROOT = "/data/data";
+//    private static String SDCARD_ROOT = "/data/data";
     public static long deleteUselessFile() {
         Log.d(TAG, "deleteUselessFile: begin to delete.");
-        return deleteFile(getallFiles(SDCARD_ROOT, clearType));
+        return deleteFile(getallFiles(Environment.getExternalStorageDirectory().getAbsolutePath(), clearType));
     }
-
+    private static long allFileSize = 0;
     private static long deleteFile(List<File> files) {
-        long allFileSize = 0;
+
         float size;
         for (File file : files) {
             size = getFileSize(file);
             Log.d(TAG, "deleteFile-->>  filePath:" + file.getPath()+ " | size:" + size);
             if(file.delete()){
-                allFileSize = (long) (allFileSize + getFileSize(file));
+                allFileSize = (long) (allFileSize + size);
                 Log.e(TAG, "deleteFile: success, " + allFileSize);
             }
         }
@@ -78,6 +78,10 @@ public class FileUtils {
             File file = new File(sd);
             Log.d(TAG, "getallFiles: file is " + file + ", " + file.exists());
             if (file.exists()) {
+                if (file.getAbsolutePath().contains("com.netease.cloudmusic")) {
+                    File[] files_net = file.listFiles();
+                    Log.d(TAG, "getallFiles_net: " + files_net.length);
+                }
                 File[] files = file.listFiles();
                 if (files != null && files.length > 0) {
                     for (File file2 : files) {
@@ -96,7 +100,7 @@ public class FileUtils {
                 }
             }
         } catch (Exception e) {
-            Log.d(TAG, "getallFiles: error is " + e.getMessage());
+            Log.d(TAG, "getallFiles: error is " + e.getCause().getMessage());
             e.printStackTrace();
         }
         return fileList;

@@ -71,7 +71,6 @@ public class ClearMasterResultActivity extends Activity implements View.OnClickL
         setContentView(R.layout.activity_clear_master_result);
         initView();
         initListener();
-//        verifyStoragePermissions(this);
         startScanning();
     }
 
@@ -96,7 +95,6 @@ public class ClearMasterResultActivity extends Activity implements View.OnClickL
     }
 
     private void startScanning() {
-//        getTotalCleanSize();
         mUselessFile = FileUtils.deleteUselessFile();
         mFileSize = Formatter.formatFileSize(ClearMasterResultActivity.this, mUselessFile);
         scanCaches();

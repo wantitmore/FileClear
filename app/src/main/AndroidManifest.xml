@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.konka.fileclear">
     android:sharedUserId="android.uid.system"
+    package="com.konka.fileclear">
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.GET_PACKAGE_SIZE" />
     <uses-permission android:name="android.permission.CLEAR_APP_CACHE" />
