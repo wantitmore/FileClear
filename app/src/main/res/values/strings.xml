@@ -43,4 +43,5 @@
     <string name="big_file">bigFile</string>
     <string name="uninstall_app">You can uninstall some apps to get more space available!</string>
     <string name="delete_app_OK_button">You can press [OK] button to wake up the menu,when the app is selected.You can uninstall the apps in the menu.</string>
+    <string name="scanning_large_files">Scanning large files…</string>
 </resources>
