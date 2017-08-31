@@ -81,8 +81,8 @@ public class ImageActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_image);
-        mRecyclerView = (ScaleRecyclerView) findViewById(R.id.recycler_image);
+        setContentView(R.layout.activity_audio);
+        mRecyclerView = (ScaleRecyclerView) findViewById(R.id.recycler_audio);
         FocusUtil.focusListener(mRecyclerView);
         TextView title = (TextView) findViewById(R.id.tv_title);
         title.setText(R.string.image);

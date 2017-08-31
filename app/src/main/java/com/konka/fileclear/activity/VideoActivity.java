@@ -68,8 +68,8 @@ public class VideoActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_video);
-        mRecyclerView = (ScaleRecyclerView ) findViewById(R.id.recycler_video);
+        setContentView(R.layout.activity_audio);
+        mRecyclerView = (ScaleRecyclerView ) findViewById(R.id.recycler_audio);
         FocusUtil.focusListener(mRecyclerView);
         mTitle = (TextView) findViewById(R.id.tv_title);
         mTitle.setText(getResources().getText(R.string.video));
