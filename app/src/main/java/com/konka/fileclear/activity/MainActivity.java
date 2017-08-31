@@ -20,8 +20,6 @@ import com.konka.fileclear.fragments.AppControllerFragment;
 import com.konka.fileclear.fragments.ClearMasterFragment;
 import com.konka.fileclear.fragments.SpaceControllerFragment;
 
-import static com.konka.fileclear.R.id.rb_one_key_clear;
-
 public class MainActivity extends Activity implements View.OnFocusChangeListener{
 
     private LinearLayout mClearGroup;
@@ -96,7 +94,7 @@ public class MainActivity extends Activity implements View.OnFocusChangeListener
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
         mClearGroup = (LinearLayout) findViewById(R.id.rg_main);
-        mOneKeyClear = (TextView) findViewById(rb_one_key_clear);
+        mOneKeyClear = (TextView) findViewById(R.id.rb_one_key_clear);
         mSpaceController = (TextView) findViewById(R.id.rb_space_controller);
         mAppController = (TextView) findViewById(R.id.rb_app_controller);
         lineAppManager = (ImageView) findViewById(R.id.line_app_manager);
@@ -124,7 +122,7 @@ public class MainActivity extends Activity implements View.OnFocusChangeListener
     public void onFocusChange(View v, boolean hasFocus) {
         if (hasFocus) {
             switch (v.getId()) {
-                case rb_one_key_clear :
+                case R.id.rb_one_key_clear :
                     switchFragment(mOneKeyClearFragment);
                     setLineVisable(CLEAR_MASTER);
                     break;
@@ -144,15 +142,21 @@ public class MainActivity extends Activity implements View.OnFocusChangeListener
         lineAppManager.setVisibility(View.INVISIBLE);
         lineClearMaster.setVisibility(View.INVISIBLE);
         lineStorageManager.setVisibility(View.INVISIBLE);
+        mOneKeyClear.setTextColor(getResources().getColor(R.color.color_8fbeff));
+        mSpaceController.setTextColor(getResources().getColor(R.color.color_8fbeff));
+        mAppController.setTextColor(getResources().getColor(R.color.color_8fbeff));
         switch (num) {
             case CLEAR_MASTER:
                 lineClearMaster.setVisibility(View.VISIBLE);
+                mOneKeyClear.setTextColor(getResources().getColor(R.color.color_white));
                 break;
             case STORAGE_MANAGER:
                 lineStorageManager.setVisibility(View.VISIBLE);
+                mSpaceController.setTextColor(getResources().getColor(R.color.color_white));
                 break;
             case APP_MMANAGER:
                 lineAppManager.setVisibility(View.VISIBLE);
+                mAppController.setTextColor(getResources().getColor(R.color.color_white));
                 break;
         }
     }

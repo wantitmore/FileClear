@@ -30,6 +30,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
     private List<Image> mImages;
     private LoadImageThread mThread;
     private int deletePosition = 0;
+    private int mStart = 0;
+    private int mCount = 0;
     private PictureLoader mImageLoader = PictureLoader.getInstance();
 
     public ImageAdapter(Context context, List<Image> images) {
@@ -133,7 +135,17 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
         @Override
         public void run() {
             super.run();
+            /*String path = mImages.get(i);
+            Bitmap bitmap = mImageLoader.getBitmapFromMemoryCache(path);
+            if (bitmap == null) {
+                bitmap = CMImageLoader.decodeSampledBitmapFromResource(path, 120);
+                mImageLoader.addBitmapToMemoryCache(path, bitmap);
+            }
 
+            Message msg = new Message();
+            msg.what = MSG_UPDATE;
+            msg.obj = new Holder(bitmap, i);
+            mHandler.sendMessage(msg);*/
         }
     }
 }
