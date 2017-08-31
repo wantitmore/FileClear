@@ -42,14 +42,12 @@
 
                 <TextView
                     android:id="@+id/tv_storage_available"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/text_base"
                     android:text="@string/storage_available" />
 
                 <TextView
                     android:id="@+id/tv_storage_available_size"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/text_base"
                     android:layout_toRightOf="@+id/tv_storage_available"
                     android:text="@string/storage_available_size" />
             </RelativeLayout>
@@ -65,14 +63,12 @@
 
                 <TextView
                     android:id="@+id/tv_storage_total"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/text_base"
                     android:text="@string/storage_total" />
 
                 <TextView
                     android:id="@+id/tv_storage_total_size"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/text_base"
                     android:text="@string/storage_available_size" />
             </LinearLayout>
         </com.konka.fileclear.view.CircleLayout>
