@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 
 /**
  * Created by user001 on 2017-8-27.
@@ -43,6 +44,7 @@ public class ScaleRecyclerView extends RecyclerView
     @Override
     protected int getChildDrawingOrder(int childCount, int i) {
         int position = mSelectedPosition;
+        Log.d("ScaleRecyclerView", "position: " + position + ", i is " + i);
         if (position < 0) {
             return i;
         } else {
@@ -50,12 +52,15 @@ public class ScaleRecyclerView extends RecyclerView
                 if (position > i) {
                     position = i;
                 }
+                Log.d("ScaleRecyclerView", "getChildDrawingOrder: 1position--" + i);
                 return position;
             }
             if (i == position) {
+                Log.d("ScaleRecyclerView", "getChildDrawingOrder: lastOne -" + i);
                 return childCount - 1;
             }
         }
+        Log.d("ScaleRecyclerView", "getChildDrawingOrder: i--" + i);
         return i;
     }
 }

@@ -16,12 +16,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipChildren="false"
-        android:clipToPadding="true"
+        android:clipToPadding="false"
         >
 
         <com.konka.fileclear.view.ScaleRecyclerView
             android:id="@+id/recycler_audio"
-            style="@style/recyclerview_style" />
+            style="@style/recyclerview_style"
+            android:layout_marginTop="20dp"
+            />
+
     </FrameLayout>
 
 
