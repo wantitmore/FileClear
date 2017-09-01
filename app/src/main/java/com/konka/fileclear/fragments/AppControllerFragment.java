@@ -49,6 +49,7 @@ public class AppControllerFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(intent);
+                getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         });
     }

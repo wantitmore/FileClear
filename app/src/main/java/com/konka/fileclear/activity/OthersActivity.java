@@ -22,7 +22,7 @@ import java.util.List;
 public class OthersActivity extends Activity {
 
     private List<Others> mOtherses;
-    private ScaleRecyclerView  mRecyclerView;
+    private ScaleRecyclerView mRecyclerView;
     String[] others = new String[]{".zip", ".rar", ".tar", ".gz", "tgz", "txt", ".doc", ".docx",
             ".xls", ".xlsx", ".ppt", "pptx", ".xml", ".html", ".htm", ".apk"};
 
@@ -75,7 +75,7 @@ public class OthersActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_audio);
-        mRecyclerView = (ScaleRecyclerView ) findViewById(R.id.recycler_audio);
+        mRecyclerView = (ScaleRecyclerView) findViewById(R.id.recycler_audio);
         FocusUtil.focusListener(mRecyclerView);
         TextView title = (TextView) findViewById(R.id.tv_title);
         title.setText(getResources().getText(R.string.others));

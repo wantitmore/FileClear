@@ -21,7 +21,7 @@ import java.util.List;
 
 public class VideoActivity extends Activity {
 
-    private ScaleRecyclerView  mRecyclerView;
+    private ScaleRecyclerView mRecyclerView;
     private TextView mTitle;
     private static List<Video> mVideos;
 
@@ -69,7 +69,7 @@ public class VideoActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_audio);
-        mRecyclerView = (ScaleRecyclerView ) findViewById(R.id.recycler_audio);
+        mRecyclerView = (ScaleRecyclerView) findViewById(R.id.recycler_audio);
         FocusUtil.focusListener(mRecyclerView);
         mTitle = (TextView) findViewById(R.id.tv_title);
         mTitle.setText(getResources().getText(R.string.video));

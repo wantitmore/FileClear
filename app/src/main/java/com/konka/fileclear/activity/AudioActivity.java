@@ -28,7 +28,7 @@ public class AudioActivity extends Activity {
     private static final String TAG = "AudioActivity";
     private static List<Audio> audios;
     private AudioHandler handler = new AudioHandler(this);
-    private ScaleRecyclerView  mRecyclerView;
+    private ScaleRecyclerView mRecyclerView;
     private TextView mTitle;
 
     @Override

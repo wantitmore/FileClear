@@ -68,6 +68,7 @@ public class MainActivity extends Activity implements View.OnFocusChangeListener
     }
 
     private void initListener() {
+        Log.d(TAG, "initListener: -----------------");
         mOneKeyClear.setOnFocusChangeListener(this);
         mSpaceController.setOnFocusChangeListener(this);
         mAppController.setOnFocusChangeListener(this);
@@ -100,9 +101,9 @@ public class MainActivity extends Activity implements View.OnFocusChangeListener
         lineAppManager = (ImageView) findViewById(R.id.line_app_manager);
         lineClearMaster = (ImageView) findViewById(R.id.line_clear_master);
         lineStorageManager = (ImageView) findViewById(R.id.line_storage_manager);
-        float xdpi = getResources().getDisplayMetrics().xdpi;
-        float density = getResources().getDisplayMetrics().density;
-        Log.d(TAG, "dpi: " + xdpi + ", density is " + density);
+        WindowManager.LayoutParams params = getWindow().getAttributes();
+        params.windowAnimations = R.style.enterandentrance;
+        getWindow().setAttributes(params);
     }
 
 

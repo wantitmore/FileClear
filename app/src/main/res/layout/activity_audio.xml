@@ -6,14 +6,23 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg"
     android:orientation="vertical"
-    android:clipChildren="false"
-    android:clipToPadding="false"
     tools:context="com.konka.fileclear.activity.AudioActivity">
+<!--    android:clipChildren="false"
+    android:clipToPadding="false"-->
     <!--title start-->
     <include layout="@layout/title_delete"/>
     <!--title end-->
-    <com.konka.fileclear.view.ScaleRecyclerView
-        android:id="@+id/recycler_audio"
-        style="@style/recyclerview_style"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        >
+
+        <com.konka.fileclear.view.ScaleRecyclerView
+            android:id="@+id/recycler_audio"
+            style="@style/recyclerview_style" />
+    </FrameLayout>
+
 
 </LinearLayout>

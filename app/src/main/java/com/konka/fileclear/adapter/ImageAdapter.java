@@ -1,7 +1,6 @@
 package com.konka.fileclear.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.konka.fileclear.R;
 import com.konka.fileclear.common.PictureLoader;
 import com.konka.fileclear.entity.Image;
@@ -50,8 +50,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(final ImageAdapter.MyViewHolder holder, final int position) {
         final String path = mImages.get(position).getPath();
-        Bitmap bitmap = PictureLoader.decodeSampledBitmapFromResource(path, 165);
-        holder.imageView.setImageBitmap(bitmap);
+//        Bitmap bitmap = PictureLoader.decodeSampledBitmapFromResource(path, 165);
+        Glide.with(mContext).load(path).into(holder.imageView);
         holder.itemView.setFocusable(true);
         setHolderView(holder, position);
     }
@@ -59,12 +59,12 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
     private void setHolderView(final MyViewHolder holder, final int position) {
         if (position == ((deletePosition - 1) < 0 ? 0 : (deletePosition - 1))) {
             holder.itemView.requestFocus();
-            holder.itemView.postDelayed(new Runnable() {
+            /*holder.itemView.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     ViewCompat.animate(holder.itemView).scaleX(1.2f).scaleY(1.2f).translationZ(1).start();
                 }
-            }, 300);
+            }, 300);*/
         }
 
         holder.itemView.setOnKeyListener(new View.OnKeyListener() {
@@ -89,6 +89,12 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
         holder.itemView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
+                /*if (hasFocus) {
+                    holder.itemView.setBackgroundColor(Color.WHITE);
+                } else {
+                    holder.itemView.setBackgroundColor(Color.TRANSPARENT);
+                }*/
+//                AnimUtil.focueAnim(mContext, v, hasFocus);
                 if (hasFocus) {
                     ViewCompat.animate(v).scaleX(1.2f).scaleY(1.2f).translationZ(1).start();
                 } else {
@@ -135,17 +141,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
         @Override
         public void run() {
             super.run();
-            /*String path = mImages.get(i);
-            Bitmap bitmap = mImageLoader.getBitmapFromMemoryCache(path);
-            if (bitmap == null) {
-                bitmap = CMImageLoader.decodeSampledBitmapFromResource(path, 120);
-                mImageLoader.addBitmapToMemoryCache(path, bitmap);
-            }
-
-            Message msg = new Message();
-            msg.what = MSG_UPDATE;
-            msg.obj = new Holder(bitmap, i);
-            mHandler.sendMessage(msg);*/
         }
     }
 }

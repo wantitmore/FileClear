@@ -8,6 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="enterandentrance">
+        <item name="android:activityOpenEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:activityCloseEnterAnimation">@android:anim/fade_in</item>
+    </style>
+
     <style name="RadioButtonStyle">
         <item name="android:button">@null</item>
         <item name="android:paddingLeft">56dp</item>

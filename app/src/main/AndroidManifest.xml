@@ -35,7 +35,7 @@
         <activity android:name=".activity.VideoActivity" />
         <activity android:name=".activity.ApplicationActivity" />
         <activity android:name=".activity.OthersActivity" />
-        <activity android:name=".activity.DeepClearActivity"></activity>
+        <activity android:name=".activity.DeepClearActivity"/>
 
     </application>
 

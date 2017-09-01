@@ -7,6 +7,8 @@
     android:layout_gravity="center"
     android:paddingStart="56dp"
     android:paddingEnd="56dp"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     android:background="@drawable/border_bg"
     >
     <ImageView
