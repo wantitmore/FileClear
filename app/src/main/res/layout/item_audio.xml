@@ -10,7 +10,7 @@
 
     <ImageView
         android:id="@+id/iv_audio"
-        android:scaleType="fitCenter"
+        android:scaleType="fitXY"
         android:background="@null"
         android:layout_width="165dp"
         android:layout_height="200dp"

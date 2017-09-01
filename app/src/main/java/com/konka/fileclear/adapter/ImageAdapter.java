@@ -1,7 +1,6 @@
 package com.konka.fileclear.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -55,7 +54,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
     }
 
     @Override
-    public void onBindViewHolder(final ImageAdapter.MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final ImageAdapter.MyViewHolder holder, int position) {
         final String path = mImages.get(position).getPath();
 //        Bitmap bitmap = PictureLoader.decodeSampledBitmapFromResource(path, 165);
         Glide.with(mContext).load(path).into(holder.imageView);
@@ -64,12 +63,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
     }
 
     private void setHolderView(final MyViewHolder holder, final int position) {
-        if (position == deletePosition) {
-            Log.d(TAG, "setHolderView: --------get focus " + position);
-        }
-        if (isFirstShow && position == 0) {
-            Log.d(TAG, "setHolderView: first show");
-        }
 
         holder.itemView.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -84,9 +77,11 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
                         if (delete) {
                             mImages.remove(position);
                             deletePosition = position;
-                            notifyItemRemoved(position);
-//                            notifyDataSetChanged();
                             isFirstShow = true;
+                            notifyItemRemoved(position);
+                            notifyItemRangeRemoved(position, getItemCount());
+//                            holder.itemView.requestFocus();
+//                            notifyDataSetChanged();
                         }
                     }
                 }
@@ -96,11 +91,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
         holder.itemView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    holder.itemView.setBackgroundColor(Color.WHITE);
-                } else {
-                    holder.itemView.setBackgroundColor(Color.TRANSPARENT);
-                }
+                int adapterPosition = mRecyclerView.getChildAdapterPosition(mRecyclerView.getFocusedChild());
+                Log.d(TAG, "onKey: focus p is " + adapterPosition);
                 if (hasFocus) {
                     ViewCompat.animate(v).scaleX(1.2f).scaleY(1.2f).translationZ(10).start();
                 } else {

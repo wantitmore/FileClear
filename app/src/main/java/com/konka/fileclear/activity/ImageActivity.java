@@ -31,8 +31,10 @@ public class ImageActivity extends Activity {
             switch (msg.what) {
                 case 0:
                     mRecyclerView.setLayoutManager(new GridLayoutManager(ImageActivity.this, 5));
-                    ImageAdapter imageAdapter = new ImageAdapter(ImageActivity.this, images);
+                    ImageAdapter imageAdapter = new ImageAdapter(ImageActivity.this, images, mRecyclerView);
                     mRecyclerView.setAdapter(imageAdapter);
+//                    mRecyclerView.getLayoutManager().smoothScrollToPosition(mRecyclerView, null, 2);
+//                    mRecyclerView.getChildAt(focusPosition - recyclerView.getFirstVisiblePosition()).requestFocus();
                     break;
             }
         }
