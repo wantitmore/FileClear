@@ -1,7 +1,7 @@
 package com.konka.fileclear.adapter;
 
 import android.content.Context;
-import android.support.v4.view.ViewCompat;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.konka.fileclear.R;
 import com.konka.fileclear.common.PictureLoader;
 import com.konka.fileclear.entity.Image;
+import com.konka.fileclear.utils.AnimUtil;
 
 import java.io.File;
 import java.util.List;
@@ -32,6 +33,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
     private int deletePosition = 0;
     private int mStart = 0;
     private int mCount = 0;
+    private boolean isFirstShow = true;
     private PictureLoader mImageLoader = PictureLoader.getInstance();
 
     public ImageAdapter(Context context, List<Image> images) {
@@ -57,19 +59,29 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
     }
 
     private void setHolderView(final MyViewHolder holder, final int position) {
-        if (position == ((deletePosition - 1) < 0 ? 0 : (deletePosition - 1))) {
-            holder.itemView.requestFocus();
-            /*holder.itemView.postDelayed(new Runnable() {
+       /* if (position == ((deletePosition - 1) < 0 ? 0 : (deletePosition - 1))) {
+            Log.d(TAG, "setHolderView: --------get focus");
+//            holder.itemView.requestFocus();
+            holder.itemView.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    ViewCompat.animate(holder.itemView).scaleX(1.2f).scaleY(1.2f).translationZ(1).start();
+//                    ViewCompat.animate(holder.itemView).scaleX(1.2f).scaleY(1.2f).translationZ(1).start();
+                    AnimUtil.focueAnim(mContext, holder.itemView, true);
                 }
-            }, 300);*/
-        }
+            }, 300);
+        }*/
+     /*   if (isFirstShow && position == 0) {
+            Log.d(TAG, "setHolderView: first show");
+            holder.itemView.requestFocus();
+//            AnimUtil.focueAnim(mContext, holder.itemView, true);
+//            ViewCompat.animate(holder.itemView).scaleX(1.2f).scaleY(1.2f).translationZ(1).start();
+            isFirstShow = false;
+        }*/
 
         holder.itemView.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
+                Log.d(TAG, "onKey: onkey---");
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
                     //delete this item
                     Image image = mImages.get(position);
@@ -89,23 +101,13 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
         holder.itemView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                /*if (hasFocus) {
+                if (hasFocus) {
                     holder.itemView.setBackgroundColor(Color.WHITE);
                 } else {
                     holder.itemView.setBackgroundColor(Color.TRANSPARENT);
-                }*/
-//                AnimUtil.focueAnim(mContext, v, hasFocus);
-                if (hasFocus) {
-                    ViewCompat.animate(v).scaleX(1.2f).scaleY(1.2f).translationZ(1).start();
-                } else {
-                    Log.d(TAG, "onFocusChange: image unfocus");
-                    ViewCompat.animate(v).scaleX(1f).scaleY(1f).translationZ(1).start();
-                    ViewGroup parent = (ViewGroup) v.getParent();
-                    if (parent != null) {
-                        parent.requestLayout();
-                        parent.invalidate();
-                    }
                 }
+                AnimUtil.focueAnim(mContext, v, hasFocus);
+                Log.d(TAG, "onFocusChange: focus change----");
             }
         });
     }

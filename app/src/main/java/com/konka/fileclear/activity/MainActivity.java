@@ -51,7 +51,27 @@ public class MainActivity extends Activity implements View.OnFocusChangeListener
         verifyStoragePermissions(this);
 
         initListener();
+
+        new Thread(run2).start();
     }
+
+    Runnable run2 = new Runnable() {
+
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                View rootview = MainActivity.this.getWindow().getDecorView();
+                View aaa = rootview.findFocus();
+                Log.i("MainActivity", aaa.toString());
+            }
+
+        }
+    };
 
     public static void verifyStoragePermissions(Activity activity) {
         // Check if we have write permission
