@@ -39,6 +39,7 @@ public class SearchUtil {
 
         searchFileList = new ArrayList<>();
         Uri uri = MediaStore.Files.getContentUri("external");
+        Log.d(TAG, "getSupportFileList: --" + uri.toString());
         Cursor cursor = null;
         try {
             cursor = context.getContentResolver().query(uri, new String[]{MediaStore.Files.FileColumns.DATA}, searchPath, null, null);

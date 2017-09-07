@@ -16,8 +16,6 @@ import com.konka.fileclear.entity.Audio;
 import java.io.File;
 import java.util.List;
 
-import static com.konka.fileclear.activity.MainActivity.TAG;
-
 /**
  * Created by user001 on 2017-8-22.
  */
@@ -27,6 +25,7 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.MyViewHolder
     private Context mContext;
     private List<Audio> mAudios;
     private int deletePosition = 0;
+    private boolean isRefresh = true;
 
     public AudioAdapter(Context context, List<Audio>audios) {
         mContext = context;
@@ -42,38 +41,26 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(AudioAdapter.MyViewHolder holder, int position) {
+        setHolderView(holder, position);
         Log.d("AudioAdapter", "onBindViewHolder: " + mAudios.get(position).getName());
         holder.name.setText(mAudios.get(position).getName());
         holder.itemView.setFocusable(true);
-        setHolderView(holder, position);
+        if (position == ((deletePosition - 1) < 0 ? 0 : (deletePosition - 1)) && isRefresh) {
+            isRefresh = false;
+            holder.itemView.requestFocus();
+
+        }
     }
 
     private void setHolderView(final MyViewHolder holder, final int position) {
-        if (position == ((deletePosition - 1) < 0 ? 0 : (deletePosition - 1))) {
-            holder.itemView.requestFocus();
-            holder.itemView.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    ViewCompat.animate(holder.itemView).scaleX(1.2f).scaleY(1.2f).translationZ(1).start();
-                }
-            }, 300);
-        }
 
         holder.itemView.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
                     //delete this item
-                    Audio audio = mAudios.get(position);
-                    File file = new File(audio.getPath());
-                    if (file.exists()) {
-                        boolean delete = file.delete();
-                        if (delete) {
-                            mAudios.remove(position);
-                            deletePosition = position;
-                            notifyDataSetChanged();
-                        }
-                    }
+                    deleteItem(position);
+                    return true;
                 }
                 return false;
             }
@@ -84,16 +71,31 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.MyViewHolder
                 if (hasFocus) {
                     ViewCompat.animate(v).scaleX(1.2f).scaleY(1.2f).translationZ(1).start();
                 } else {
-                    Log.d(TAG, "onFocusChange: image unfocus");
                     ViewCompat.animate(v).scaleX(1f).scaleY(1f).translationZ(1).start();
-                    ViewGroup parent = (ViewGroup) v.getParent();
-                    if (parent != null) {
-                        parent.requestLayout();
-                        parent.invalidate();
-                    }
                 }
             }
         });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteItem(position);
+            }
+        });
+    }
+
+    private void deleteItem(int position) {
+        Audio audio = mAudios.get(position);
+        File file = new File(audio.getPath());
+        if (file.exists()) {
+            boolean delete = file.delete();
+            if (delete) {
+                mAudios.remove(position);
+                deletePosition = position;
+                isRefresh = true;
+                notifyDataSetChanged();
+            }
+        }
     }
 
     @Override

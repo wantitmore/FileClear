@@ -20,7 +20,7 @@ import com.konka.fileclear.fragments.AppControllerFragment;
 import com.konka.fileclear.fragments.ClearMasterFragment;
 import com.konka.fileclear.fragments.SpaceControllerFragment;
 
-public class MainActivity extends Activity implements View.OnFocusChangeListener{
+public class MainActivity extends Activity implements View.OnFocusChangeListener, View.OnClickListener{
 
     private LinearLayout mClearGroup;
     private AppControllerFragment mAppControllerFragment;
@@ -51,27 +51,8 @@ public class MainActivity extends Activity implements View.OnFocusChangeListener
         verifyStoragePermissions(this);
 
         initListener();
-
-        new Thread(run2).start();
     }
 
-    Runnable run2 = new Runnable() {
-
-        @Override
-        public void run() {
-            while (true) {
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                View rootview = MainActivity.this.getWindow().getDecorView();
-                View aaa = rootview.findFocus();
-                Log.i("MainActivity", aaa.toString());
-            }
-
-        }
-    };
 
     public static void verifyStoragePermissions(Activity activity) {
         // Check if we have write permission
@@ -92,6 +73,11 @@ public class MainActivity extends Activity implements View.OnFocusChangeListener
         mOneKeyClear.setOnFocusChangeListener(this);
         mSpaceController.setOnFocusChangeListener(this);
         mAppController.setOnFocusChangeListener(this);
+        mOneKeyClear.setOnClickListener(this);
+        mSpaceController.setOnClickListener(this);
+        mAppController.setOnClickListener(this);
+        switchFragment(mOneKeyClearFragment);
+        setLineVisable(CLEAR_MASTER);
     }
 
     private void switchFragment(Fragment fragment) {
@@ -178,6 +164,28 @@ public class MainActivity extends Activity implements View.OnFocusChangeListener
             case APP_MMANAGER:
                 lineAppManager.setVisibility(View.VISIBLE);
                 mAppController.setTextColor(getResources().getColor(R.color.color_white));
+                break;
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        Log.d(TAG, "onClick: " + v.toString());
+        switch (v.getId()) {
+            case R.id.rb_one_key_clear :
+                Log.d(TAG, "onClick1: " + v.toString());
+                switchFragment(mOneKeyClearFragment);
+                setLineVisable(CLEAR_MASTER);
+                break;
+            case R.id.rb_space_controller :
+                Log.d(TAG, "onClick2: " + v.toString());
+                switchFragment(mSpaceControllerFragment);
+                setLineVisable(STORAGE_MANAGER);
+                break;
+            case R.id.rb_app_controller :
+                Log.d(TAG, "onClick3: " + v.toString());
+                switchFragment(mAppControllerFragment);
+                setLineVisable(APP_MMANAGER);
                 break;
         }
     }

@@ -1,6 +1,7 @@
 package com.konka.fileclear.adapter;
 
 import android.content.Context;
+import android.provider.MediaStore;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.konka.fileclear.R;
 import com.konka.fileclear.entity.Others;
@@ -27,6 +29,7 @@ public class OtherAdapter extends RecyclerView.Adapter<OtherAdapter.MyViewHolder
     private Context mContext;
     private List<Others> mOtherses;
     private int deletePosition = 0;
+    private boolean isRefresh = true;
 
     public OtherAdapter(Context context, List<Others> otherses) {
         mContext = context;
@@ -42,40 +45,28 @@ public class OtherAdapter extends RecyclerView.Adapter<OtherAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+        setHolderView(holder, position);
         String path = mOtherses.get(position).getPath();
         int lastIndex = path.lastIndexOf("/");
         String name = path.substring(lastIndex + 1);
         holder.name.setText(name);
+        if (position == ((deletePosition - 1) < 0 ? 0 : (deletePosition - 1))&& isRefresh) {
+            isRefresh = false;
+            holder.itemView.requestFocus();
+            Log.d(TAG, "onBindViewHolder: ------------");
+        }
         holder.itemView.setFocusable(true);
-        setHolderView(holder, position);
     }
 
     private void setHolderView(final MyViewHolder holder, final int position) {
-        if (position == ((deletePosition - 1) < 0 ? 0 : (deletePosition - 1))) {
-            holder.itemView.requestFocus();
-            holder.itemView.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    ViewCompat.animate(holder.itemView).scaleX(1.2f).scaleY(1.2f).translationZ(1).start();
-                }
-            }, 300);
-        }
 
         holder.itemView.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
                     //delete this item
-                    Others image = mOtherses.get(position);
-                    File file = new File(image.getPath());
-                    if (file.exists()) {
-                        boolean delete = file.delete();
-                        if (delete) {
-                            mOtherses.remove(position);
-                            deletePosition = position;
-                            notifyDataSetChanged();
-                        }
-                    }
+                    deleteItem(position);
+                    return true;
                 }
                 return false;
             }
@@ -88,14 +79,38 @@ public class OtherAdapter extends RecyclerView.Adapter<OtherAdapter.MyViewHolder
                 } else {
                     Log.d(TAG, "onFocusChange: image unfocus");
                     ViewCompat.animate(v).scaleX(1f).scaleY(1f).translationZ(1).start();
-                    ViewGroup parent = (ViewGroup) v.getParent();
-                    if (parent != null) {
-                        parent.requestLayout();
-                        parent.invalidate();
-                    }
                 }
             }
         });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteItem(position);
+            }
+        });
+    }
+
+    private void deleteItem(int position) {
+        Others others = mOtherses.get(position);
+        File file = new File(others.getPath());
+        Log.d(TAG, "deleteItem: click-----" + file.getAbsolutePath());
+        if (file.exists()) {
+            boolean delete = file.delete();
+            if (delete) {
+                mOtherses.remove(position);
+                deletePosition = position;
+                isRefresh = true;
+                notifyDataSetChanged();
+                mContext.getContentResolver().delete(
+                        MediaStore.Files.getContentUri("external"),
+                        MediaStore.Audio.Media.DATA+ " = '" + file.getAbsolutePath() + "'", null);;
+                Log.d(TAG, "deleteItem: ------------");
+                Toast.makeText(mContext, mContext.getText(R.string.delete_fail), Toast.LENGTH_SHORT).show();
+            }else {
+                Toast.makeText(mContext, mContext.getText(R.string.delete_fail), Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     @Override

@@ -8,7 +8,6 @@ import android.util.Log;
 
 import java.io.File;
 
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by user001 on 2017-8-9. SD card utils
@@ -16,25 +15,44 @@ import static android.content.ContentValues.TAG;
 
 public class SdcardUtil {
 
+    private static final String TAG = "SdcardUtil";
+
     public static String getSDTotalSize(final Context context) {
-        File path = Environment.getExternalStorageDirectory();
-        StatFs stat = new StatFs(path.getPath());
-        long blockSize = stat.getBlockSize();
-        long totalBlocks = stat.getBlockCount();
-        Log.d(TAG, "path is : " + path);
+        long blockSize = 0;
+        long totalBlocks = 0;
+        try {
+            File path = Environment.getExternalStorageDirectory();
+            Log.d(TAG, "path is : " + path);
+            StatFs stat = new StatFs(path.getPath());
+            blockSize = stat.getBlockSize();
+            totalBlocks = stat.getBlockCount();
+        } catch (Exception e) {
+            Log.e(TAG, "getSDTotalSize: error occur is " + e.getCause().getMessage());
+            e.printStackTrace();
+        }
         return Formatter.formatFileSize(context, blockSize * totalBlocks);
     }
 
     public static long getSDAvailableSize(Context context) {
-        StatFs fs = new StatFs(Environment.getDataDirectory().getPath());
-        return fs.getAvailableBytes();
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            StatFs fs = new StatFs(Environment.getDataDirectory().getPath());
+            return fs.getAvailableBytes();
+        }
+        return 0;
     }
 
     private static long getByteTotal(Context context) {
-        File path = Environment.getExternalStorageDirectory();
-        StatFs stat = new StatFs(path.getPath());
-        long blockSize = stat.getBlockSize();
-        long totalBlocks = stat.getBlockCount();
+        long blockSize = 0;
+        long totalBlocks = 0;
+        try {
+            File path = Environment.getExternalStorageDirectory();
+            StatFs stat = new StatFs(path.getPath());
+            blockSize = stat.getBlockSize();
+            totalBlocks = stat.getBlockCount();
+        } catch (Exception e) {
+            Log.e(TAG, "getByteTotal: error occur is " + e.getCause().getMessage());
+            e.printStackTrace();
+        }
         return blockSize * totalBlocks;
     }
 

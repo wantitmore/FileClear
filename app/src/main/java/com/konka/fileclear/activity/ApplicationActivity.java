@@ -29,7 +29,6 @@ import com.konka.fileclear.common.MediaResourceManager;
 import com.konka.fileclear.utils.FocusUtil;
 import com.konka.fileclear.view.ScaleRecyclerView;
 
-import java.io.File;
 import java.util.List;
 
 public class ApplicationActivity extends Activity {
@@ -37,6 +36,7 @@ public class ApplicationActivity extends Activity {
     private ScaleRecyclerView mRecyclerView;
     private List<PackageInfo> mCustomApps;
     private int uninstallPosition = 0;
+    private boolean isRefresh = true;
     private static final String TAG = "ApplicationActivity";
 
     private Handler handler = new Handler() {
@@ -111,6 +111,7 @@ public class ApplicationActivity extends Activity {
                 String packageName = intent.getDataString();
                 Log.d("MyInstalledReceiver", "卸载了 :" + packageName + ", uninstallPosition is " + uninstallPosition);
                 mCustomApps.remove(uninstallPosition);
+                isRefresh = true;
                 applicationAdapter.notifyItemRemoved(uninstallPosition);
                 applicationAdapter.notifyDataSetChanged();
             }
@@ -140,15 +141,19 @@ public class ApplicationActivity extends Activity {
 
         @Override
         public void onBindViewHolder(final MyViewHolder holder, int position) {
+            setHolderView(holder, position);
+            if (position == ((uninstallPosition - 1) < 0 ? 0 : (uninstallPosition - 1)) && isRefresh) {
+                isRefresh = false;
+                holder.itemView.requestFocus();
+            }
             PackageManager pm = mContext.getPackageManager();
             holder.name.setText(mApkCommons.get(position).applicationInfo.loadLabel(pm).toString());
             holder.itemView.setFocusable(true);
-            setHolderView(holder, position);
         }
 
 
         private void setHolderView(final MyViewHolder holder, final int position) {
-            if (position == ((uninstallPosition - 1) < 0 ? 0 : (uninstallPosition - 1))) {
+            /*if (position == ((uninstallPosition - 1) < 0 ? 0 : (uninstallPosition - 1))) {
                 holder.itemView.requestFocus();
                 holder.itemView.postDelayed(new Runnable() {
                     @Override
@@ -156,18 +161,14 @@ public class ApplicationActivity extends Activity {
                         ViewCompat.animate(holder.itemView).scaleX(1.2f).scaleY(1.2f).translationZ(1).start();
                     }
                 }, 300);
-            }
+            }*/
             holder.itemView.setOnKeyListener(new View.OnKeyListener() {
                 @Override
                 public boolean onKey(View v, int keyCode, KeyEvent event) {
                     if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
                         //delete this item
-                        PackageInfo info = mApkCommons.get(position);
-                        String dataDir = info.applicationInfo.packageName;
-                        File file = new File(dataDir);
-                        Intent intent = new Intent(Intent.ACTION_DELETE, Uri.parse("package:" + dataDir));
-                        uninstallPosition = position;
-                        ((Activity) mContext).startActivityForResult(intent, DELETE_REQUEST_CODE);
+                        deleteItem(position);
+                        return true;
                     }
                     return false;
                 }
@@ -176,17 +177,27 @@ public class ApplicationActivity extends Activity {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
                     if (hasFocus) {
+                        Log.d(TAG, "onFocusChange: -------------");
                         ViewCompat.animate(v).scaleX(1.2f).scaleY(1.2f).translationZ(1).start();
                     } else {
                         ViewCompat.animate(v).scaleX(1f).scaleY(1f).translationZ(1).start();
-                        ViewGroup parent = (ViewGroup) v.getParent();
-                        if (parent != null) {
-                            parent.requestLayout();
-                            parent.invalidate();
-                        }
                     }
                 }
             });
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    deleteItem(position);
+                }
+            });
+        }
+
+        private void deleteItem(int position) {
+            PackageInfo info = mApkCommons.get(position);
+            String dataDir = info.applicationInfo.packageName;
+            Intent intent = new Intent(Intent.ACTION_DELETE, Uri.parse("package:" + dataDir));
+            uninstallPosition = position;
+            ((Activity) mContext).startActivityForResult(intent, DELETE_REQUEST_CODE);
         }
 
         @Override

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ public class OthersActivity extends Activity {
 
     private List<Others> mOtherses;
     private ScaleRecyclerView mRecyclerView;
+    private static final String TAG = "OthersActivity";
     String[] others = new String[]{".zip", ".rar", ".tar", ".gz", "tgz", "txt", ".doc", ".docx",
             ".xls", ".xlsx", ".ppt", "pptx", ".xml", ".html", ".htm", ".apk"};
 
@@ -33,8 +35,8 @@ public class OthersActivity extends Activity {
             switch (msg.what) {
                 case 0:
                     mRecyclerView.setLayoutManager(new GridLayoutManager(OthersActivity.this, 5));
-                    OtherAdapter videoAdapter = new OtherAdapter(OthersActivity.this, mOtherses);
-                    mRecyclerView.setAdapter(videoAdapter);
+                    OtherAdapter otherAdapter = new OtherAdapter(OthersActivity.this, mOtherses);
+                    mRecyclerView.setAdapter(otherAdapter);
                     break;
             }
         }
@@ -60,6 +62,7 @@ public class OthersActivity extends Activity {
             public void run() {
                 mOtherses = new ArrayList<>();
                 ArrayList<String> supportFileList = SearchUtil.getSupportFileList(OthersActivity.this, others);
+                Log.d(TAG, "run: " + supportFileList.size());
                 for (String supportFile : supportFileList) {
                     Others other = new Others();
                     other.setPath(supportFile);

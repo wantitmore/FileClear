@@ -1,9 +1,7 @@
 package com.konka.fileclear.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.media.ThumbnailUtils;
-import android.provider.MediaStore;
+import android.net.Uri;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.konka.fileclear.R;
 import com.konka.fileclear.entity.Video;
 
@@ -30,6 +30,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
     private Context mContext;
     private List<Video> mVideos;
     private int deletePosition = 0;
+    private boolean isRefresh = true;
 
     public VideoAdapter(Context context, List<Video> videos) {
         mContext = context;
@@ -43,42 +44,28 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+        setHolderView(holder, position);
         Video video = mVideos.get(position);
         String path = video.getPath();
         String name = video.getName();
-        Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(path, MediaStore.Video.Thumbnails.MINI_KIND);
         holder.name.setText(name);
-        holder.thumbnail.setImageBitmap(thumbnail);
+        Glide.with(mContext).load(Uri.fromFile(new File(path))).placeholder(R.drawable.video_default).into(holder.thumbnail);
+        if (position == ((deletePosition - 1) < 0 ? 0 : (deletePosition - 1)) && isRefresh) {
+            Log.d(TAG, "onBindViewHolder: -----------------34");
+            isRefresh = false;
+            holder.itemView.requestFocus();
+        }
         holder.itemView.setFocusable(true);
-        setHolderView(holder, position);
     }
 
     private void setHolderView(final MyViewHolder holder, final int position) {
-        if (position == ((deletePosition - 1) < 0 ? 0 : (deletePosition - 1))) {
-            holder.itemView.requestFocus();
-            holder.itemView.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    ViewCompat.animate(holder.itemView).scaleX(1.2f).scaleY(1.2f).translationZ(1).start();
-                }
-            }, 300);
-        }
-
         holder.itemView.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
                     //delete this item
-                    Video image = mVideos.get(position);
-                    File file = new File(image.getPath());
-                    if (file.exists()) {
-                        boolean delete = file.delete();
-                        if (delete) {
-                            mVideos.remove(position);
-                            deletePosition = position;
-                            notifyDataSetChanged();
-                        }
-                    }
+                    deleteItem(position);
+                    return true;
                 }
                 return false;
             }
@@ -87,32 +74,51 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    ViewCompat.animate(v).scaleX(1.2f).scaleY(1.2f).translationZ(1).start();
+                    Log.d(TAG, "onFocusChange: focus");
+                    ViewCompat.animate(v).scaleX(1.2f).scaleY(1.2f).translationZ(10).start();
                 } else {
                     Log.d(TAG, "onFocusChange: image unfocus");
                     ViewCompat.animate(v).scaleX(1f).scaleY(1f).translationZ(1).start();
-                    ViewGroup parent = (ViewGroup) v.getParent();
-                    if (parent != null) {
-                        parent.requestLayout();
-                        parent.invalidate();
-                    }
                 }
+            }
+        });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteItem(position);
             }
         });
     }
 
+    private void deleteItem(int position) {
+        Video image = mVideos.get(position);
+        File file = new File(image.getPath());
+        if (file.exists()) {
+            boolean delete = file.delete();
+            if (delete) {
+                mVideos.remove(position);
+                deletePosition = position;
+                isRefresh = true;
+                notifyDataSetChanged();
+            } else {
+                Toast.makeText(mContext, mContext.getText(R.string.delete_fail), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     @Override
     public int getItemCount() {
-        return mVideos == null  ? 0 : mVideos.size();
+        return mVideos == null ? 0 : mVideos.size();
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         private ImageView thumbnail, smallIcon;
         private TextView name;
+
         MyViewHolder(View itemView) {
             super(itemView);
-            thumbnail = (ImageView) itemView.findViewById( R.id.iv_audio);
-            smallIcon = (ImageView) itemView.findViewById( R.id.iv_small_icon);
+            thumbnail = (ImageView) itemView.findViewById(R.id.iv_audio);
+            smallIcon = (ImageView) itemView.findViewById(R.id.iv_small_icon);
             smallIcon.setImageResource(R.drawable.video1);
             name = (TextView) itemView.findViewById(R.id.audio_name);
         }
